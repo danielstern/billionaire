@@ -7,13 +7,14 @@
             <h4 class="modal-title">Buy Stock: {{currentBuyingStock.name}} <strong>({{currentBuyingStock.symbol}})</strong></h4>
           </div>
           <div class="modal-body">
+            <p>{{currentBuyingStock.description}}</p>
              <table class='table'>
              	  <tr>
                     <td>
                        Category
                     </td>
                     <td>
-                        {{currentBuyingStock.category}}	
+                        {{currentBuyingStock.category | uppercase}}	
                     </td>
                 </tr>
                 <tr>
@@ -46,6 +47,22 @@
                     </td>
                     <td>
                         {{currentBuyingStock.price * currentStockBuyCount | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Your Cash
+                    </td>
+                    <td>
+                        {{session.player.cash | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Balance Remaining
+                    </td>
+                    <td>
+                        {{session.player.cash - currentBuyingStock.price * currentStockBuyCount | currency}}
                     </td>
                 </tr>
             </table>	

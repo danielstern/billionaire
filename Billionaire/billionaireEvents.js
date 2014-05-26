@@ -1,6 +1,22 @@
 angular.module("BillionaireGame")
     .service("billionaireEvents", function() {
         var events = [{
+            name: "Stock market correction",
+            description: "Be prepared to experience mild terror and a slight sensation of suicidal despair as stock prices drop across the board",
+            technical: "-10% to Price of All Stocks",
+            ok: "Good thing these windows don't open",
+            effect: function(session) {
+                session.market.marketAdjustment *= 0.9;
+            }
+        }, {
+            name: "The Good Guys Triumph over the Bad Guys",
+            description: "Optimism sweeps across the homeland as our good ol' boys defeat those dastardly devils in some desert somewhere, for some reason no one understand.",
+            technical: "+10% to Price of All Stocks",
+            ok: "Good thing these windows don't open",
+            effect: function(session) {
+                session.market.marketAdjustment *= 1;
+            }
+        }, {
             name: "Evil continues to be profitable",
             description: "The rich get richer, pyramid schemes continue to rise in popularity, and Chris Brown tops the charts yet again.",
             technical: "+10% to Book Value of All Finance Stocks",
@@ -12,7 +28,7 @@ angular.module("BillionaireGame")
                     }
                 })
             }
-        },{
+        }, {
             name: "The Tech Bubble Bursts",
             description: "It's a dark day for those in Silicon Valley. The tech bubble bursts, cutting the value of all technology stocks in half.",
             technical: "-40% to Book Value of All Tech Stocks",

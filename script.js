@@ -25,13 +25,14 @@ angular.module("BillionaireGame", [])
                 rateOfReturn: undefined
             },
             market: {
-            	stocks: undefined
+            	stocks: undefined,
+            	marketAdjustment: 1.05,
             },
             game: {
                 paused: false,
                 difficulty: 1,
                 duration: 500,
-                eventFrequency: 12,
+                eventFrequency: 24,
                 inflation: 1.02
             }
         }
@@ -45,7 +46,7 @@ angular.module("BillionaireGame", [])
 
             _.each(session.market.stocks,function(stock){
             	stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
-            	stock.price = stock.bookValue;
+            	stock.price = stock.bookValue * session.market.marketAdjustment;
             })
 
             if (session.world.month > session.game.duration) {
