@@ -122,6 +122,21 @@
     <!-- /.modal -->
 
     </div>
+
+    <h3>Your Actions</h3>
+
+    <table class='table'>
+        <tr ng-repeat="action in session.player.actionsTaken">
+            <td>
+                {{action.name}}
+            </td>
+            <td>
+                {{action.timeRemaining}} Months Left Until Completion
+            </td>
+          
+        </tr>
+    </table>
+    </div>
     <div>
         <h2>Game</h2>
         <table class='table'>

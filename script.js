@@ -8,7 +8,7 @@ angular.module("BillionaireGame", [])
 
         var defaultStats = {
             player: {
-                cash: 100,
+                cash: 10000,
                 karma: 0,
                 stocks: [],
                 realEstate: [],
@@ -43,6 +43,14 @@ angular.module("BillionaireGame", [])
                 eventFrequency: 24,
                 speed: 1000,
                 inflation: 1.02
+            },
+            onMonthListeners: [],
+            onmonth: function(l) {
+                session.onMonthListeners.push(l);
+                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
+                    console.log("Applying month")
+                    $scope.$apply();
+                }
             },
             record: []
         }
@@ -88,6 +96,10 @@ angular.module("BillionaireGame", [])
                 }
 
                 delete snapshot.record;
+
+                _.each(session.onMonthListeners, function(l) {
+                    l(session);
+                })
 
                 $scope.session.record.push(snapshot);
 
@@ -135,16 +147,41 @@ angular.module("BillionaireGame", [])
 
         }
 
+
+
         $scope.confirmTakeAction = function(action) {
-            console.log("Confirming",action);
-            action.effect($scope.session);
+            console.log("Confirming", action);
+            $scope.doAfterMonths(action.effect, action.time);
+
+            action.timeRemaining = action.time;
 
             $('#actionsModal').modal('hide');
 
             $scope.session.player.cash -= action.cost;
 
-            $scope.session.player.actionsTaken.push(_.clone(action));
+            $scope.session.player.actionsTaken.push(action);
             action.purchased = true;
+
+            var done = false;
+            var monthStarted = $scope.session.world.month;
+
+
+            session.onmonth(function(session) {
+
+                if (action.completed) return;
+                action.timeRemaining--;
+                if (!action.timeRemaining) {
+                    action.effect($scope.session);
+                    action.completed = true;
+                }
+            })
+
+        }
+
+        $scope.doAfterMonths = function(action, months) {
+
+
+
 
         }
 
