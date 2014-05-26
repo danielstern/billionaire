@@ -26,6 +26,24 @@ angular.module("BillionaireGame")
             $scope.pause();
         }
 
+        $scope.onnewgame(function(){
+
+            $scope.onmonth(function(session) {
+
+                var game = session.game;
+
+                var marketMood = Math.random() * (game.marketMoodRange.max - game.marketMoodRange.min) + game.marketMoodRange.min;
+
+                _.each(session.market.stocks, function(stock) {
+                    stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
+                    stock.price = stock.bookValue * session.market.marketAdjustment;
+                    stock.price *= marketMood;
+                })
+
+            });
+
+        })
+
         $scope.confirmBuyStock = function(deal, count, comission) {
 
             $scope.pause();

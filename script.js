@@ -1,7 +1,8 @@
 angular.module("BillionaireGame", [])
     .controller("BillionaireGame", function($scope,
         billionaireStocks, billionaireJobs, billionaireEvents, billionaireActions,
-        $interval) {
+        $interval, $timeout
+    ) {
 
         var session = undefined;
         var timer = undefined;
@@ -48,72 +49,64 @@ angular.module("BillionaireGame", [])
                 speed: 1000,
                 inflation: 1.02
             },
-            onMonthListeners: [],
-            onmonth: function(l) {
-                session.onMonthListeners.push(l);
 
-            },
             record: []
         }
 
-            function gameTick() {
-                var player = session.player;
-                var game = session.game;
 
-                if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
+        $scope.onmonth = function(l) {
+            $scope.onMonthListeners = $scope.onMonthListeners || [];
+            $scope.onMonthListeners.push(l);
+        };
 
-                session.world.month += 1;
-                session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
+        $scope.onNewGameListeners = [];
+        $scope.onnewgame = function(l) {
+            $scope.onNewGameListeners.push(l);
+            console.log("On new game...", $scope.onNewGameListeners);
+        };
 
-                var marketMood = Math.random() * (game.marketMoodRange.max - game.marketMoodRange.min) + game.marketMoodRange.min;
+        function gameTick() {
 
+            var player = session.player;
+            var game = session.game;
 
-                _.each(session.market.stocks, function(stock) {
-                    stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
-                    stock.price = stock.bookValue * session.market.marketAdjustment;
-                    stock.price *= marketMood;
-                })
+            if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
 
-                if (session.world.month > session.game.duration) {
-                    gameOver();
-                }
+            session.world.month += 1;
+            session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
 
-                if (Math.random() * session.game.eventFrequency < 1) {
-                    eventHappens();
-                }
-
-                player.holdings = $scope.consolidateStocks();
-
-                var income = player.job.salary / 12 * player.salaryMultiplier;
-                var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
-
-
-                player.cash += income;
-                player.cash -= taxes;
-                player.cash -= player.expenses;
-
-                player.age += 1 / 12;
-
-                var snapshot = _.clone($scope.session);
-                snapshot.monthEnding = {
-                    income: income,
-                    taxes: taxes
-                }
-
-                delete snapshot.record;
-
-                _.each(session.onMonthListeners, function(l) {
-                    l(session);
-                })
-
-                $scope.session.record.push(snapshot);
-
+            if (session.world.month > session.game.duration) {
+                gameOver();
             }
 
-            function gameOver() {
-                console.log("Game over man!");
-                $interval.cancel(timer);
+            if (Math.random() * session.game.eventFrequency < 1) {
+                eventHappens();
             }
+
+            player.holdings = $scope.consolidateStocks();
+
+            var income = player.job.salary / 12 * player.salaryMultiplier;
+            var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
+
+            player.cash += income;
+            player.cash -= taxes;
+            player.cash -= player.expenses;
+
+            player.incomeThisMonth = income;
+            player.taxesThisMonth = taxes;
+
+            player.age += 1 / 12;
+
+            _.each($scope.onMonthListeners, function(l) {
+                l(session);
+            })
+
+        }
+
+        function gameOver() {
+            console.log("Game over man!");
+            $interval.cancel(timer);
+        }
 
 
         newGame();
@@ -140,18 +133,15 @@ angular.module("BillionaireGame", [])
         }
 
 
-        function pause() {
+        $scope.pause = function pause() {
             $interval.cancel(timer);
             $scope.session.game.paused = true;
-        }
+        };
 
-        function unpause() {
+        $scope.unpause = function unpause() {
             if ($scope.session.game.paused) timer = $interval(gameTick, $scope.session.game.speed);
             $scope.session.game.paused = false;
         }
-
-        $scope.pause = pause;
-        $scope.unpause = unpause;
 
         function newGame() {
 
@@ -171,53 +161,28 @@ angular.module("BillionaireGame", [])
 
             $scope.session = session;
 
+            $scope.onmonth(function(session) {
+
+                var snapshot = _.clone(session);
+                snapshot.monthEnding = {
+                    income: session.player.incomeThisMonth,
+                    taxes: session.player.taxesThisMonth
+                }
+
+                delete snapshot.record;
+
+                session.record.push(snapshot);
+
+            })
+
+
+            $timeout(function() {
+                _.each($scope.onNewGameListeners, function(l) {
+                    l(session);
+                })
+            }, 100)
+
             timer = $interval(gameTick, $scope.session.game.speed);
         }
 
-    })
-    .controller("ActionsController", function($scope) {
-
-        $scope.openConfirmAction = function(action) {
-            console.log("Confirming ", action);
-
-            $scope.currentActionHappening = action;
-
-            $scope.pause();
-            $('#actionsModal').modal();
-            $('#actionsModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
-            });
-
-        }
-
-
-
-        $scope.confirmTakeAction = function(action) {
-            console.log("Confirming", action);
-
-            action.timeRemaining = action.time;
-
-            var session = $scope.session;
-
-            $('#actionsModal').modal('hide');
-
-            session.player.cash -= action.cost;
-
-            session.player.actionsTaken.push(action);
-            action.purchased = true;
-
-            var done = false;
-            var monthStarted = $scope.session.world.month;
-
-            session.onmonth(function(session) {
-
-                if (action.completed) return;
-                action.timeRemaining--;
-                if (!action.timeRemaining) {
-                    action.effect($scope.session);
-                    action.completed = true;
-                }
-            })
-
-        }
     })
