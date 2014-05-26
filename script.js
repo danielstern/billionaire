@@ -11,6 +11,7 @@ angular.module("BillionaireGame", [])
                 cash: 1000,
                 karma: 0,
                 stocks: [],
+                stockHistory: [],
                 realEstate: [],
                 expenses: 1000,
                 job: undefined,

@@ -1,20 +1,19 @@
 
-    <div class="modal fade" id='stockBuyModal'>
+    <div class="modal fade" id='stockSellModal'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
-            <h4 class="modal-title">Buy Stock: {{deal.link.name}} <strong>({{deal.link.symbol}})</strong></h4>
+            <h4 class="modal-title">Sell Stock: {{deal.link.name}} <strong>({{deal.link.symbol}})</strong></h4>
           </div>
           <div class="modal-body">
-            <p>{{deal.link.description}}</p>
              <table class='table'>
-             	  <tr>
+                <tr>
                     <td>
                        Category
                     </td>
                     <td>
-                        {{deal.link.category | uppercase}}	
+                        {{deal.link.category | uppercase}}  
                     </td>
                 </tr>
                 <tr>
@@ -35,26 +34,42 @@
                 </tr>
                 <tr>
                     <td>
-                       Buy How Many?
+                       Bought At
                     </td>
                     <td>
-                        <input ng-model="deal.count">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Comission
-                    </td>
-                    <td>
-                        {{session.player.comission | currency}}
+                        {{deal.boughtAt | currency}}
                     </td>
                 </tr>
                 <tr>
                     <td>
-                       Your Cost
+                       Rate of Return
                     </td>
                     <td>
-                        {{deal.link.price * deal.count + deal.comission | currency}}
+                        {{getROR(deal) | number:1}}%
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       You Own
+                    </td>
+                    <td>
+                        {{deal.count}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Sell How Many?
+                    </td>
+                    <td>
+                        <input ng-model="deal.amountToSell">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Amount Due
+                    </td>
+                    <td>
+                        {{deal.link.price * deal.amountToSell | currency}}
                     </td>
                 </tr>
                 <tr>
@@ -67,19 +82,18 @@
                 </tr>
                 <tr>
                     <td>
-                       Balance Remaining
+                       New Cash Balance
                     </td>
                     <td>
-                        {{session.player.cash - deal.comission - deal.link.price * deal.count | currency}}
+                        {{session.player.cash + deal.link.price * deal.amountToSell | currency}}
                     </td>
                 </tr>
-            </table>	
+            </table>  
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" ng-class="{disabled: deal.price * deal.count > session.player.cash}" ng-click="confirmBuyStock(deal,deal.count,deal.comission)">Buy</button>
+            <button type="button" class="btn btn-primary" ng-class="{disabled: deal.amountToSell > deal.sharesAvailable}" ng-click="confirmSellStock(deal,deal.amountToSell)">Sell</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
