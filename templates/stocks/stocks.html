@@ -20,20 +20,51 @@
     <h3>Your Stocks</h3>
 
     <table class='table'>
+        <thead>
+            <td>
+                Stock Name
+            </td>
+            <td>
+                # Owned
+            </td>
+            <td>
+                Purchased For
+            </td>
+            <td>
+                Price Now
+            </td>
+            <td>
+                Current Value of Holdings
+            </td>
+            <td>
+                Rate of Return
+            </td>
+            <td>
+                Sell?
+            </td>
+        </tr>
         <tr ng-repeat="stock in session.player.stocks">
             <td>
                 {{stock.name}}
             </td>
             <td>
-                {{stock.bookValue}}
+                {{stock.count}}
             </td>
             <td>
-                {{stock.count}}
+                {{stock.boughtAt | currency}}
+            </td>
+            <td>
+                {{stock.link.price | currency}}
+            </td>
+            <td>
+                {{stock.link.price * stock.count | currency}}
+            </td>
+            <td>
+                {{getROR(stock) | number:1}}%
             </td>
         </tr>
     </table>
-    </div>
 
     <div ng-include="'templates/stocks/stockBuyModal.html'"></div>
     <div ng-include="'templates/stocks/confirmStockBuyModal.html'"></div>
-</div>
+    </div>

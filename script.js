@@ -8,13 +8,14 @@ angular.module("BillionaireGame", [])
 
         var defaultStats = {
             player: {
-                cash: 10000,
+                cash: 1000,
                 karma: 0,
                 stocks: [],
                 realEstate: [],
                 expenses: 1000,
                 job: undefined,
                 salary: undefined,
+                age: 25,
                 actionsTaken: [],
                 businesses: [],
                 salaryMultiplier: 0.95,
@@ -89,6 +90,8 @@ angular.module("BillionaireGame", [])
                 player.cash += income;
                 player.cash -= taxes;
                 player.cash -= player.expenses;
+
+                player.age += 1 /12;
 
                 var snapshot = _.clone($scope.session);
                 snapshot.monthEnding = {
