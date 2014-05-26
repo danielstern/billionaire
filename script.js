@@ -78,11 +78,15 @@ angular.module("BillionaireGame", [])
             session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
 
             if (session.world.month > session.game.duration) {
-                gameOver();
+                $scope.gameOver();
+            }
+
+            if (player.cash < -25000) {
+                $scope.gameOver();
             }
 
             if (Math.random() * session.game.eventFrequency < 1) {
-                eventHappens();
+                $scope.eventHappens();
             }
 
             player.holdings = $scope.consolidateStocks();
@@ -101,21 +105,26 @@ angular.module("BillionaireGame", [])
 
             player.age += 1 / 12;
 
+
+
             _.each($scope.onMonthListeners, function(l) {
                 l(session);
             })
 
         }
 
-        function gameOver() {
+        $scope.gameOver = function() {
             console.log("Game over man!");
+            $scope.broadcastMessage({
+                title:"Game over man!",
+                body:"You lose. Remember, the key to billions is compound rate of return!",
+                ok: "Play again"
+            })
+         //   $scope.newGame();
             $interval.cancel(timer);
         }
 
-
-        newGame();
-
-        function eventHappens() {
+         $scope.eventHappens = function() {
             var game = $scope.session.game;
 
             if (game.timeSinceLastEvent) return;
@@ -158,6 +167,17 @@ angular.module("BillionaireGame", [])
 
         }
 
+        $scope.broadcastMessage = function(message) {
+            $scope.worldMessage = message;
+
+            $scope.pause();
+            $('#worldMessageModal').modal();
+            $('#worldMessageModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+        }
+
         $scope.confirmTakeJob = function(job) {
             var player = $scope.session.player;
             if (player.job.onquit) player.job.onquit(session);
@@ -166,7 +186,7 @@ angular.module("BillionaireGame", [])
             $('#takeJobModal').modal('hide');
         }
 
-        function newGame() {
+        $scope.newGame = function () {
 
             var stocks = _.clone(billionaireStocks);
             var jobs = _.clone(billionaireJobs);
@@ -203,9 +223,21 @@ angular.module("BillionaireGame", [])
                 _.each($scope.onNewGameListeners, function(l) {
                     l(session);
                 })
-            }, 100)
+
+                $scope.broadcastMessage({
+                    title:"Welcome to Billionaire",
+                    body:"You are a young delivery boy. You must work your way up the ladder and become a billionaire before time runs out. Try and make as much money as you can, but if you get too old, or get too much debt, it's game over."
+                })
+            }, 100);
+
+          
 
             timer = $interval(gameTick, $scope.session.game.speed);
         }
+
+
+
+        $scope.newGame();
+
 
     })
