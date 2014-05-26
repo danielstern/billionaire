@@ -3,7 +3,6 @@ angular.module("BillionaireGame")
 
 
         $scope.openBuyStockModal = function(stock) {
-            console.log("buying stock", stock);
             $scope.currentBuyingStock = stock;
             $scope.currentStockBuyCount = 10;
             $('#stockBuyModal').modal();
@@ -12,7 +11,6 @@ angular.module("BillionaireGame")
         }
 
         $scope.confirmBuyStock = function(stock, count) {
-            console.log("Confirm buying of...", stock, count);
             $('#stockBuyModal').modal('hide');
             $scope.session.player.stocks.push({
                 date: $scope.session.world.month,

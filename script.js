@@ -1,7 +1,7 @@
 angular.module("BillionaireGame", [])
-    .controller("BillionaireGame", function($scope, 
-     billionaireStocks, billionaireJobs, billionaireEvents,
-     $interval) {
+    .controller("BillionaireGame", function($scope,
+        billionaireStocks, billionaireJobs, billionaireEvents, billionaireActions,
+        $interval) {
 
         var session = undefined;
         var timer = undefined;
@@ -15,7 +15,9 @@ angular.module("BillionaireGame", [])
                 expenses: 1000,
                 job: undefined,
                 salary: undefined,
-                businesses: []
+                actionsTaken: [],
+                businesses: [],
+                incomeTaxMultiplier: 1.05,
             },
             world: {
                 month: 1,
@@ -25,96 +27,159 @@ angular.module("BillionaireGame", [])
                 rateOfReturn: undefined
             },
             market: {
-            	stocks: undefined,
-            	marketAdjustment: 1.05,
+                stocks: undefined,
+                marketAdjustment: 1.05,
             },
             game: {
                 paused: false,
                 difficulty: 1,
+                marketMoodRange: {
+                    min: 0.9,
+                    max: 1.1
+                },
+                eventCoolDownMonths: 12,
+                timeSinceLastEvent: 10,
                 duration: 500,
                 eventFrequency: 24,
+                speed: 1000,
                 inflation: 1.02
-            }
+            },
+            record: []
         }
 
-        function gameTick() {
-            var player = session.player;
+            function gameTick() {
+                var player = session.player;
+                var game = session.game;
 
-            session.world.month += 1;
-            session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
+                if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
+
+                session.world.month += 1;
+                session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
+
+                var marketMood = Math.random() * (game.marketMoodRange.max - game.marketMoodRange.min) + game.marketMoodRange.min;
 
 
-            _.each(session.market.stocks,function(stock){
-            	stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
-            	stock.price = stock.bookValue * session.market.marketAdjustment;
-            })
+                _.each(session.market.stocks, function(stock) {
+                    stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
+                    stock.price = stock.bookValue * session.market.marketAdjustment;
+                    stock.price *= marketMood;
+                })
 
-            if (session.world.month > session.game.duration) {
-                gameOver();
+                if (session.world.month > session.game.duration) {
+                    gameOver();
+                }
+
+                if (Math.random() * session.game.eventFrequency < 1) {
+                    eventHappens();
+                }
+
+                var income = player.job.salary / 12;
+                var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
+
+
+                player.cash += income;
+                player.cash -= taxes;
+                player.cash -= player.expenses;
+
+                var snapshot = _.clone($scope.session);
+                snapshot.monthEnding = {
+                    income: income,
+                    taxes: taxes
+                }
+
+                delete snapshot.record;
+
+                $scope.session.record.push(snapshot);
+
             }
 
-            if (Math.random() * session.game.eventFrequency < 1) {
-            	eventHappens();
+            function gameOver() {
+                console.log("Game over man!");
+                $interval.cancel(timer);
             }
-
-            player.cash += player.job.salary / 12;
-            player.cash -= player.expenses;
-
-            //if (session.world.month % 12 = 4)
-        }
-
-        function gameOver() {
-            console.log("Game over man!");
-            $interval.cancel(timer);
-        }
 
 
         newGame();
 
         function eventHappens() {
-        	var _event = _.sample(session.allEvents);
-        	$scope.currentEventHappening = _event;
-        	$scope.pause();	
-        	console.log("Event is happening", _event);
-        	$('#eventModal').modal();
-        	$('#eventModal').on('hidden.bs.modal',function(){
-        		console.log("Modal hidden")
-        		$scope.unpause();
-        	})	;
-        	_event.effect(session);
+            var game = $scope.session.game;
+
+            if (game.timeSinceLastEvent) return;
+
+            var _event = _.sample(session.allEvents);
+
+            $scope.currentEventHappening = _event;
+
+            $scope.pause();
+            $('#eventModal').modal();
+            $('#eventModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+            _event.effect(session);
+
+            game.timeSinceLastEvent = game.eventCoolDownMonths;
+
+        }
+
+        $scope.openConfirmAction = function(action) {
+            console.log("Confirming ", action);
+
+            $scope.currentActionHappening = action;
+
+            $scope.pause();
+            $('#actionsModal').modal();
+            $('#actionsModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+        }
+
+        $scope.confirmTakeAction = function(action) {
+            console.log("Confirming",action);
+            action.effect($scope.session);
+
+            $('#actionsModal').modal('hide');
+
+            $scope.session.player.cash -= action.cost;
+
+            $scope.session.player.actionsTaken.push(_.clone(action));
+            action.purchased = true;
 
         }
 
         function pause() {
-        	$interval.cancel(timer);
-        	$scope.session.game.paused = true;
+            $interval.cancel(timer);
+            $scope.session.game.paused = true;
         }
 
         function unpause() {
-           if ($scope.session.game.paused) timer = $interval(gameTick, 400);
-              	$scope.session.game.paused = false;
+            if ($scope.session.game.paused) timer = $interval(gameTick, $scope.session.game.speed);
+            $scope.session.game.paused = false;
         }
 
         $scope.pause = pause;
         $scope.unpause = unpause;
 
         function newGame() {
-            console.log("%c If I had a billion dollars", "color:#f0f");
+
             var stocks = _.clone(billionaireStocks);
             var jobs = _.clone(billionaireJobs);
             var events = _.clone(billionaireEvents);
+            var actions = _.clone(billionaireActions);
 
             session = _.clone(defaultStats);
             session.market.stocks = stocks;
             session.allEvents = events;
+            session.allActions = actions;
             session.allJobs = jobs;
 
             var player = session.player;
             player.job = jobs[0];
 
-            timer = $interval(gameTick, 400);
-
             $scope.session = session;
+
+            timer = $interval(gameTick, $scope.session.game.speed);
         }
 
     })
