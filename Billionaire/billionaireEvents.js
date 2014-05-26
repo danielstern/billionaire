@@ -10,7 +10,7 @@ angular.module("BillionaireGame")
             }
         }, {
             name: "The Good Guys Triumph over the Bad Guys",
-            description: "Optimism sweeps across the homeland as our good ol' boys defeat those dastardly devils in some desert somewhere, for some reason no one understand.",
+            description: "Optimism sweeps across the homeland as our good ol' boys defeat those dastardly devils in some desert somewhere, for some reason no one understands.",
             technical: "+10% to Price of All Stocks",
             ok: "Good thing these windows don't open",
             effect: function(session) {

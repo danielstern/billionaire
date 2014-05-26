@@ -17,6 +17,7 @@ angular.module("BillionaireGame", [])
                 salary: undefined,
                 actionsTaken: [],
                 businesses: [],
+                salaryMultiplier: 0.95,
                 incomeTaxMultiplier: 1.05,
             },
             world: {
@@ -81,7 +82,7 @@ angular.module("BillionaireGame", [])
                     eventHappens();
                 }
 
-                var income = player.job.salary / 12;
+                var income = player.job.salary / 12 * player.salaryMultiplier;
                 var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
 
 
@@ -134,56 +135,6 @@ angular.module("BillionaireGame", [])
 
         }
 
-        $scope.openConfirmAction = function(action) {
-            console.log("Confirming ", action);
-
-            $scope.currentActionHappening = action;
-
-            $scope.pause();
-            $('#actionsModal').modal();
-            $('#actionsModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
-            });
-
-        }
-
-
-
-        $scope.confirmTakeAction = function(action) {
-            console.log("Confirming", action);
-            $scope.doAfterMonths(action.effect, action.time);
-
-            action.timeRemaining = action.time;
-
-            $('#actionsModal').modal('hide');
-
-            $scope.session.player.cash -= action.cost;
-
-            $scope.session.player.actionsTaken.push(action);
-            action.purchased = true;
-
-            var done = false;
-            var monthStarted = $scope.session.world.month;
-
-
-            session.onmonth(function(session) {
-
-                if (action.completed) return;
-                action.timeRemaining--;
-                if (!action.timeRemaining) {
-                    action.effect($scope.session);
-                    action.completed = true;
-                }
-            })
-
-        }
-
-        $scope.doAfterMonths = function(action, months) {
-
-
-
-
-        }
 
         function pause() {
             $interval.cancel(timer);
@@ -220,3 +171,49 @@ angular.module("BillionaireGame", [])
         }
 
     })
+.controller("ActionsController",function($scope){
+
+    $scope.openConfirmAction = function(action) {
+        console.log("Confirming ", action);
+
+        $scope.currentActionHappening = action;
+
+        $scope.pause();
+        $('#actionsModal').modal();
+        $('#actionsModal').on('hidden.bs.modal', function() {
+            $scope.unpause();
+        });
+
+    }
+
+
+
+    $scope.confirmTakeAction = function(action) {
+        console.log("Confirming", action);
+
+        action.timeRemaining = action.time;
+
+        var session = $scope.session;
+
+        $('#actionsModal').modal('hide');
+
+        session.player.cash -= action.cost;
+
+        session.player.actionsTaken.push(action);
+        action.purchased = true;
+
+        var done = false;
+        var monthStarted = $scope.session.world.month;
+
+        session.onmonth(function(session) {
+
+            if (action.completed) return;
+            action.timeRemaining--;
+            if (!action.timeRemaining) {
+                action.effect($scope.session);
+                action.completed = true;
+            }
+        })
+
+    }
+})

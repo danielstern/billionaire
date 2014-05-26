@@ -61,82 +61,9 @@
     </table>
 
     <div ng-include="'templates/stocks/stocks.html'"></div>
+    <div ng-include="'templates/actions/actions.html'"></div>
+    <div ng-include="'templates/events/eventsModal.html'"></div>
 
-    <h3>Your Stocks</h3>
-
-    <table class='table'>
-        <tr ng-repeat="stock in session.player.stocks">
-            <td>
-                {{stock.name}}
-            </td>
-            <td>
-                {{stock.bookValue}}
-            </td>
-            <td>
-                {{stock.count}}
-            </td>
-        </tr>
-    </table>
-    </div>
-    <h2>Actions</h2>
-
-    <table class='table'>
-        <tr ng-repeat="action in session.allActions" ng-hide="action.purchased">
-            <td>
-                {{action.name}}
-            </td>
-            <td>
-                {{action.cost}}
-            </td>
-            <td>
-                {{action.time}} Months
-            </td>
-            <td>
-                <button class="btn btn-default" ng-click="openConfirmAction(action)" ng-class="{disabled: action.cost > session.player.cash || action.purchased}">TAKE ACTION</button>
-            </td>
-        </tr>
-    </table>
-    <div class="modal fade" id='actionsModal'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
-                    <h4 class="modal-title">{{currentActionHappening.name}} - {{currentActionHappening.cost | currency}}</strong>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{currentActionHappening.description}}</p>
-                    <p>
-                        <strong>{{currentActionHappening.technical}}</strong>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" ng-class="{disabled: currentActionHappening.cost > session.player.cash || currentActionHappening.purchased}" ng-click="confirmTakeAction(currentActionHappening)">{{currentActionHappening.ok || "Take Action!"}}</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-    </div>
-
-    <h3>Your Actions</h3>
-
-    <table class='table'>
-        <tr ng-repeat="action in session.player.actionsTaken">
-            <td>
-                {{action.name}}
-            </td>
-            <td>
-                {{action.timeRemaining}} Months Left Until Completion
-            </td>
-          
-        </tr>
-    </table>
-    </div>
     <div>
         <h2>Game</h2>
         <table class='table'>
@@ -159,30 +86,5 @@
         </table>
 
     </div>
-    <div>
-        <h2>Events</h2>
-        <div class="modal fade" id='eventModal'>
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
-                        <h4 class="modal-title">{{currentEventHappening.name}}</strong>
-                        </h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>{{currentEventHappening.description}}</p>
-                        <p>
-                            <strong>{{currentEventHappening.technical}}</strong>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click='unpause()'>{{currentEventHappening.ok || "OK"}}</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-    </div>
+  
 </body>

@@ -1,5 +1,6 @@
- <h2>Stock Market</h2>
+
 <div ng-controller='StockMarket'>
+    <h2>Stock Market</h2>
     <table class='table'>
 
         <tr ng-repeat="stock in session.market.stocks">
@@ -14,6 +15,24 @@
             </td>
         </tr>
     </table>
+
+
+    <h3>Your Stocks</h3>
+
+    <table class='table'>
+        <tr ng-repeat="stock in session.player.stocks">
+            <td>
+                {{stock.name}}
+            </td>
+            <td>
+                {{stock.bookValue}}
+            </td>
+            <td>
+                {{stock.count}}
+            </td>
+        </tr>
+    </table>
+    </div>
 
     <div ng-include="'templates/stocks/stockBuyModal.html'"></div>
     <div ng-include="'templates/stocks/confirmStockBuyModal.html'"></div>
