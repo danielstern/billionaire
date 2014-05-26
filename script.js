@@ -1,6 +1,6 @@
 angular.module("BillionaireGame", [])
     .controller("BillionaireGame", function($scope, 
-     billionaireStocks, billionaireJobs,
+     billionaireStocks, billionaireJobs, billionaireEvents,
      $interval) {
 
         var session = undefined;
@@ -31,6 +31,7 @@ angular.module("BillionaireGame", [])
                 paused: false,
                 difficulty: 1,
                 duration: 500,
+                eventFrequency: 12,
                 inflation: 1.02
             }
         }
@@ -51,6 +52,10 @@ angular.module("BillionaireGame", [])
                 gameOver();
             }
 
+            if (Math.random() * session.game.eventFrequency < 1) {
+            	eventHappens();
+            }
+
             player.cash += player.job.salary / 12;
             player.cash -= player.expenses;
 
@@ -64,6 +69,13 @@ angular.module("BillionaireGame", [])
 
 
         newGame();
+
+        function eventHappens() {
+        	var _event = _.sample(session.allEvents);
+        	console.log("Event is happening", _event);
+        	_event.effect(session);
+
+        }
 
         function pause() {
         	$interval.cancel(timer);
@@ -80,9 +92,11 @@ angular.module("BillionaireGame", [])
             console.log("%c If I had a billion dollars", "color:#f0f");
             var stocks = _.clone(billionaireStocks);
             var jobs = _.clone(billionaireJobs);
+            var events = _.clone(billionaireEvents);
 
             session = _.clone(defaultStats);
             session.market.stocks = stocks;
+            session.allEvents = events;
             session.allJobs = jobs;
 
             var player = session.player;
@@ -94,31 +108,3 @@ angular.module("BillionaireGame", [])
         }
 
     })
-.controller("StockMarket",function($scope){
-
-
-        $scope.openBuyStockModal = function(stock) {
-        	console.log("buying stock",stock);
-        	$scope.currentBuyingStock = stock;
-        	$scope.currentStockBuyCount = 10;
-        	$('#stockBuyModal').modal();
-
-        	$scope.pause();
-        }
-
-        $scope.confirmBuyStock = function(stock,count) {
-        	console.log("Confirm buying of...", stock,count);
-        	$('#stockBuyModal').modal('hide');
-        	$scope.session.player.stocks.push({
-        		date:$scope.session.world.month,
-        		count: count,
-        		name: stock.name,
-        		symbol: stock.symbol,
-        		price: stock.price
-        	})
-
-        	$scope.session.player.cash -= stock.price * count;
-        	$('#confirmStockBuyModal').modal();
-        }
-
-})
