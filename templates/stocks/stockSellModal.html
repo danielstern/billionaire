@@ -37,7 +37,7 @@
                        Bought At
                     </td>
                     <td>
-                        {{deal.boughtAt | currency}}
+                        {{deal[0].boughtPrice | currency}}
                     </td>
                 </tr>
                 <tr>
@@ -45,7 +45,7 @@
                        Rate of Return
                     </td>
                     <td>
-                        {{getROR(deal) | number:1}}%
+                        {{getROR(deal[0]) | number:1}}%
                     </td>
                 </tr>
                 <tr>
@@ -53,7 +53,7 @@
                        You Own
                     </td>
                     <td>
-                        {{deal.count}}
+                        {{deal.length}}
                     </td>
                 </tr>
                 <tr>
