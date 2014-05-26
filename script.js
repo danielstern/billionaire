@@ -82,6 +82,8 @@ angular.module("BillionaireGame", [])
                     eventHappens();
                 }
 
+                player.holdings = $scope.consolidateStocks();
+
                 var income = player.job.salary / 12 * player.salaryMultiplier;
                 var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
 

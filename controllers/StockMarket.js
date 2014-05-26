@@ -1,5 +1,5 @@
 angular.module("BillionaireGame")
-    .controller("StockMarket", function($scope) {
+    .controller("StockMarket", function($scope, $rootScope) {
 
 
         $scope.openBuyStockModal = function(stock) {
@@ -10,7 +10,7 @@ angular.module("BillionaireGame")
                 name: stock.name,
                 symbol: stock.symbol,
                 link: stock,
-                boughtAt: stock.price,
+                boughtPrice: stock.price,
                 count: 10,
                 stocks: [],
                 comission: $scope.session.player.comission,
@@ -33,21 +33,15 @@ angular.module("BillionaireGame")
             $scope.session.confirming = true;
             $('#stockBuyModal').modal('hide');
 
-            deal.originalNetCost = deal.boughtAt + comission / count;
+            deal.originalNetCost = deal.boughtPrice + comission / count;
             deal.count = count;
             deal.comission = comission;
-            deal.totalCost = deal.boughtAt * count + comission;
+            deal.totalCost = deal.boughtPrice * count + comission;
             deal.settled = true;
 
-            for (var i = 0; i < deal.count; i++) {
-                var _stock = {};
-                _stock.boughtAt = deal.boughtAt;
-                _stock.boughtDate = deal.date;
-                _stock.originalNetCost = deal.originalNetCost;
-                _stock.link = deal.link;
-                $scope.session.player.stocks.push(_stock);
-            }
-
+            var stocks = $scope.expandStocks(deal);
+           
+            $scope.session.player.stocks = $scope.session.player.stocks.concat(stocks);
             $scope.session.player.stockHistory.push(deal);
 
             $scope.session.player.cash -= (deal.totalCost);
@@ -69,6 +63,50 @@ angular.module("BillionaireGame")
 
 
             $scope.pause();
+        }
+
+        $rootScope.consolidateStocks = function() {
+
+            var consolidated = [];
+
+            var stocks = _.clone($scope.session.player.stocks);
+
+            console.log("Consolidating stocks");
+
+            var holdings = _.groupBy(stocks,function(stock){
+                return JSON.stringify({
+                    symbol: stock.link.symbol,
+                    boughtDate: stock.link.boughtDate,
+                    boughtPrice: stock.link.boughtPrice,
+                });
+            });
+
+            _.each(holdings,function(holding){
+                holding.link = holding[0].link;
+                holding.boughtPrice = holding[0].boughtPrice;
+                consolidated.push(holding);
+            })
+
+            console.log("Holdings?",holdings);
+
+            return consolidated;
+
+        }
+
+        $scope.expandStocks = function(holding) {
+
+            var stocks = [];
+            for (var i = 0; i < holding.count; i++) {
+                var _stock = {};
+                _stock.boughtPrice = holding.boughtPrice;
+                _stock.boughtDate = holding.date;
+                _stock.originalNetCost = holding.originalNetCost;
+                _stock.link = holding.link;
+                stocks.push(_stock);
+                
+            }
+
+            return stocks;
         }
 
         $scope.confirmSellStock = function(holding, count) {
@@ -93,13 +131,13 @@ angular.module("BillionaireGame")
             });
         }
 
-        $scope.getROR = function(deal) {
+        $scope.getROR = function(stock) {
 
-            if (!deal) return;
+            if (!stock) return;
 
-            var numMonths = $scope.session.world.month - deal.date;
-            var startingVal = deal.originalNetCost;
-            var currentVal = deal.link.price;
+            var numMonths = $scope.session.world.month - stock.boughtDate;
+            var startingVal = stock.originalNetCost;
+            var currentVal = stock.link.price;
 
             if (!numMonths) return;
 

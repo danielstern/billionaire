@@ -43,24 +43,24 @@
                 Sell?
             </td>
         </tr>
-        <tr ng-repeat="stock in session.player.stocks">
+        <tr ng-repeat="holding in session.player.holdings">
             <td>
-                {{stock.link.name}}
+                <span title="{{holding.link.name}}">{{holding.link.symbol}}</span>
             </td>
             <td>
-                {{stock.count}}
+                {{holding.length}}
             </td>
             <td>
-                {{stock.boughtAt | currency}}
+                {{holding[0].originalNetCost | currency}}
             </td>
             <td>
-                {{stock.link.price | currency}}
+                {{holding.link.price | currency}}
             </td>
             <td>
-                {{stock.link.price * stock.count | currency}}
+                {{holding.link.price * holding.length | currency}}
             </td>
             <td>
-                {{getROR(stock) | number:1}}%
+                {{getROR(holding[0]) | number:1}}%
             </td>
             <td>
                  <button ng-click="openSellStockModal(stock)">SELL</button>
