@@ -67,6 +67,7 @@ angular.module("BillionaireGame", [])
 
         $scope.buyStock = function(stock) {
         	console.log("buying stock",stock);
+        	$('#stockBuyModal').modal();
         }
 
         newGame();
