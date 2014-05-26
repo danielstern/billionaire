@@ -9,12 +9,8 @@ angular.module("BillionaireGame", [])
         var defaultStats = {
             player: {
                 cash: 100,
-                stocks: [{
-                    symbol: "lol",
-                    purchased: "00000",
-                    cost: "100"
-                }],
                 karma: 0,
+                stocks: [],
                 realEstate: [],
                 expenses: 1000,
                 job: undefined,
@@ -65,12 +61,39 @@ angular.module("BillionaireGame", [])
             $interval.cancel(timer);
         }
 
-        $scope.buyStock = function(stock) {
+        $scope.openBuyStockModal = function(stock) {
         	console.log("buying stock",stock);
+        	$scope.currentBuyingStock = stock;
+        	$scope.currentStockBuyCount = 10;
         	$('#stockBuyModal').modal();
+
+        	pause();
+        }
+
+        $scope.confirmBuyStock = function(stock,count) {
+        	console.log("Confirm buying of...", stock,count);
+        	$('#stockBuyModal').modal('hide');
+        	session.player.stocks.push({
+        		date:session.world.month,
+        		count: count,
+        		name: stock.name,
+        		symbol: stock.symbol,
+        		price: stock.bookValue
+        	})
+        	$('#confirmStockBuyModal').modal();
         }
 
         newGame();
+
+        function pause() {
+        	$interval.cancel(timer);
+        }
+
+        function unpause() {
+            timer = $interval(gameTick, 400);
+        }
+
+        $scope.unpause = unpause;
 
         function newGame() {
             console.log("%c If I had a billion dollars", "color:#f0f");
