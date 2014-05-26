@@ -50,10 +50,7 @@ angular.module("BillionaireGame", [])
             onMonthListeners: [],
             onmonth: function(l) {
                 session.onMonthListeners.push(l);
-                if ($scope.$root.$$phase != '$apply' && $scope.$root.$$phase != '$digest') {
-                    console.log("Applying month")
-                    $scope.$apply();
-                }
+              
             },
             record: []
         }

@@ -4,28 +4,36 @@ angular.module("BillionaireGame")
 
         $scope.openBuyStockModal = function(stock) {
 
-            $scope.currentBuyingStock = stock;
-            $scope.currentStockBuyCount = 10;
-            $scope.currentBuyComission = $scope.session.player.comission;
+            var deal = {
+                date: $scope.session.world.month,
+                name: stock.name,
+                symbol: stock.symbol,                
+                link: stock,
+                boughtAt: stock.price,
+                count: 10,
+                comission: $scope.session.player.comission,
+            }
+
+            $scope.deal = deal;
+
             $('#stockBuyModal').modal();
 
             $scope.pause();
         }
 
-        $scope.confirmBuyStock = function(stock, count, comission) {
+        $scope.confirmBuyStock = function(deal,count, comission) {
 
             $('#stockBuyModal').modal('hide');
-            $scope.session.player.stocks.push({
-                date: $scope.session.world.month,
-                count: count,
-                name: stock.name,
-                symbol: stock.symbol,
-                boughtAt: stock.price + comission / count,
-                link: stock,
-                comission: comission
-            })
 
-            $scope.session.player.cash -= (stock.price * count + comission);
+            deal.originalNetCost = deal.boughtAt + comission / count;
+            deal.count = count;
+            deal.comission = comission;
+            deal.totalCost = deal.boughtAt * count + comission;
+            deal.settled = true;
+
+            $scope.session.player.stocks.push(deal);
+
+            $scope.session.player.cash -= (deal.totalCost);
             $('#confirmStockBuyModal').modal();
         }
 

@@ -4,12 +4,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"  ng-click='unpause()'>&times;</button>
-            <h4 class="modal-title">Bought {{currentStockBuyCount}} x <strong>({{currentBuyingStock.symbol}})</strong></h4>
+            <h4 class="modal-title">Bought {{deal.count}} x <strong>({{deal.link.symbol}})</strong></h4>
           </div>
           <div class="modal-body">
-            <p>Bought {{currentStockBuyCount}} x <strong>{{currentBuyingStock.symbol}}, {{currentBuyingStock.name}}, for {{currentBuyingStock.price | currency}} each.</p>
-            <p>Comission: {{currentBuyComission | currency}}</p>
-            <p><strong>Your total cost: {{currentStockBuyCount * currentBuyingStock.price + currentBuyComission | currency}}</strong></p>
+            <p>Bought {{deal.count}} x <strong>{{deal.link.symbol}}, {{deal.link.name}}, for {{deal.boughtAt | currency}} each.</p>
+            <p>Comission: {{deal.comission | currency}}</p>
+            <p><strong>Your total cost: {{deal.count * deal.link.price + deal.comission | currency}}</strong></p>
           </div>
           <div class="modal-footer">
            <button type="button" class="btn btn-primary" data-dismiss="modal"  ng-click='unpause()'>OK</button>
