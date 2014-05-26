@@ -73,6 +73,9 @@ angular.module("BillionaireGame")
         $scope.openSellStockModal = function(holding) {
 
             $scope.deal = holding;
+            holding.gainPerUnit = holding.link.price - holding[0].boughtPrice;
+            holding.taxPerUnit = $scope.session.market.capitalGainsTax;
+
             holding.amountToSell = holding.length;
 
             $('#stockSellModal').modal();
@@ -101,7 +104,7 @@ angular.module("BillionaireGame")
                $scope.session.player.stocks = _.without($scope.session.player.stocks, stock);
             }
 
-            $scope.session.player.cash += (count * holding[0].link.price);
+            $scope.session.player.cash += (count * holding[0].link.price) - (count * holding.taxPerUnit);
 
             $('#stockSellModal').modal('hide');
             if (!$scope.session.confirming) $scope.unpause();

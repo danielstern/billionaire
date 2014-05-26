@@ -23,6 +23,7 @@ angular.module("BillionaireGame", [])
                 businesses: [],
                 salaryMultiplier: 0.95,
                 incomeTaxMultiplier: 1.05,
+                capitalGainsMultiplier: 1.05,
             },
             world: {
                 month: 1,
@@ -34,6 +35,7 @@ angular.module("BillionaireGame", [])
             market: {
                 stocks: undefined,
                 marketAdjustment: 1.05,
+                capitalGainsTax: 0.2
             },
             game: {
                 paused: false,
@@ -91,6 +93,8 @@ angular.module("BillionaireGame", [])
             player.cash += income;
             player.cash -= taxes;
             player.cash -= player.expenses;
+
+            player.expenses *= (1 + ((session.game.inflation - 1) / 12));
 
             player.incomeThisMonth = income;
             player.taxesThisMonth = taxes;

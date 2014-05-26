@@ -66,10 +66,26 @@
                 </tr>
                 <tr>
                     <td>
+                       Capital Gains
+                    </td>
+                    <td>
+                        {{deal.gainPerUnit * deal.amountToSell | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       Capital Gains Tax ({{session.market.capitalGainsTax * 100}}%)
+                    </td>
+                    <td>
+                        {{deal.gainPerUnit * deal.amountToSell * session.market.capitalGainsTax | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                        Amount Due
                     </td>
                     <td>
-                        {{deal.link.price * deal.amountToSell | currency}}
+                        {{deal.link.price * deal.amountToSell - deal.amountToSell * deal.taxPerUnit | currency}}
                     </td>
                 </tr>
                 <tr>
@@ -85,7 +101,7 @@
                        New Cash Balance
                     </td>
                     <td>
-                        {{session.player.cash + deal.link.price * deal.amountToSell | currency}}
+                        {{session.player.cash + deal.link.price * deal.amountToSell - deal.taxPerUnit * deal.amountToSell | currency}}
                     </td>
                 </tr>
             </table>  
