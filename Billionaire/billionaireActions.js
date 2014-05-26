@@ -10,6 +10,7 @@ angular.module("BillionaireGame")
             technical: "-5% to Income Tax because you're smart enough to get an accountant",
             effect: function(session) {
                 session.player.incomeTaxMultiplier -= 0.05;
+                session.player.collegeEducation = true;
             }
         },{
             name: "Master the Art of Sales",

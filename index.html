@@ -70,6 +70,19 @@
         </tr>
     </table>
 
+     <h2>Jobs</h2>
+    <table class='table'>
+        <tr ng-repeat="job in session.allJobs">
+            <td>
+                {{job.name}}
+            </td>
+            
+            <td>
+                <button class="btn btn-default" ng-click="openConfirmJob(job)">Take Job</button>
+            </td>
+        </tr>
+    </table>
+
     <div ng-include="'templates/stocks/stocks.html'"></div>
     <div ng-include="'templates/actions/actions.html'"></div>
     <div ng-include="'templates/events/eventsModal.html'"></div>
