@@ -1,5 +1,27 @@
 <head>
 <title>Billionaire!</title>
 <script src="bower_components/underscore/underscore.js"></script>
+<script src="bower_components/angular/angular.js"></script>
 <script src="script.js"></script>
+<script src="Billionaire/billionaireStocks.js"></script>
 </head>
+<body ng-controller="BillionaireGame" ng-app="BillionaireGame">
+	<table>
+		<tr>
+		<th colspan='3'>
+			Stock Market
+		</th>
+	</tr>
+		<tr ng-repeat="stock in session.market.stocks">
+			<td>
+				<span title="{{stock.name}}">{{stock.symbol}}</span>
+			</td>
+			<td>
+				{{stock.bookValue | currency}}
+			</td>
+			<td>
+				<button ng-click="wow()">BUY</button>
+			</td>
+		</tr>
+	</table>
+</body>
