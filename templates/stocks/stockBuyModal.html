@@ -43,10 +43,18 @@
                 </tr>
                 <tr>
                     <td>
+                       Comission
+                    </td>
+                    <td>
+                        {{session.player.comission | currency}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                        Your Cost
                     </td>
                     <td>
-                        {{currentBuyingStock.price * currentStockBuyCount | currency}}
+                        {{currentBuyingStock.price * currentStockBuyCount + currentBuyComission| currency}}
                     </td>
                 </tr>
                 <tr>
@@ -62,14 +70,14 @@
                        Balance Remaining
                     </td>
                     <td>
-                        {{session.player.cash - currentBuyingStock.price * currentStockBuyCount | currency}}
+                        {{session.player.cash - currentBuyComission - currentBuyingStock.price * currentStockBuyCount | currency}}
                     </td>
                 </tr>
             </table>	
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" ng-class="{disabled: currentBuyingStock.price * currentStockBuyCount > session.player.cash}" ng-click="confirmBuyStock(currentBuyingStock,currentStockBuyCount)">Buy</button>
+            <button type="button" class="btn btn-primary" ng-class="{disabled: currentBuyingStock.price * currentStockBuyCount > session.player.cash}" ng-click="confirmBuyStock(currentBuyingStock,currentStockBuyCount, session.player.comission)">Buy</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

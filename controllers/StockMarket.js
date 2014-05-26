@@ -3,28 +3,29 @@ angular.module("BillionaireGame")
 
 
         $scope.openBuyStockModal = function(stock) {
-            console.log("OPen buy stock,",stock);
+
             $scope.currentBuyingStock = stock;
             $scope.currentStockBuyCount = 10;
+            $scope.currentBuyComission = $scope.session.player.comission;
             $('#stockBuyModal').modal();
 
             $scope.pause();
         }
 
-        $scope.confirmBuyStock = function(stock, count) {
+        $scope.confirmBuyStock = function(stock, count, comission) {
+
             $('#stockBuyModal').modal('hide');
             $scope.session.player.stocks.push({
                 date: $scope.session.world.month,
                 count: count,
                 name: stock.name,
                 symbol: stock.symbol,
-                boughtAt: stock.price,
+                boughtAt: stock.price + comission / count,
                 link: stock,
+                comission: comission
             })
 
-            console.log("Added player stock", $scope.session.player.stocks)
-
-            $scope.session.player.cash -= stock.price * count;
+            $scope.session.player.cash -= (stock.price * count + comission);
             $('#confirmStockBuyModal').modal();
         }
 

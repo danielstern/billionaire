@@ -62,6 +62,9 @@
             <td>
                 {{getROR(stock) | number:1}}%
             </td>
+            <td>
+                 <button ng-click="openSellStockModal(stock)">SELL</button>
+            </td>
         </tr>
     </table>
 

@@ -17,6 +17,7 @@ angular.module("BillionaireGame", [])
                 salary: undefined,
                 age: 25,
                 actionsTaken: [],
+                comission: 29.95,
                 businesses: [],
                 salaryMultiplier: 0.95,
                 incomeTaxMultiplier: 1.05,
