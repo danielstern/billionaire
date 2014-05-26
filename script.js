@@ -72,17 +72,26 @@ angular.module("BillionaireGame", [])
 
         function eventHappens() {
         	var _event = _.sample(session.allEvents);
+        	$scope.currentEventHappening = _event;
+        	$scope.pause();	
         	console.log("Event is happening", _event);
+        	$('#eventModal').modal();
+        	$('#eventModal').on('hidden.bs.modal',function(){
+        		console.log("Modal hidden")
+        		$scope.unpause();
+        	})	;
         	_event.effect(session);
 
         }
 
         function pause() {
         	$interval.cancel(timer);
+        	$scope.session.game.paused = true;
         }
 
         function unpause() {
-            timer = $interval(gameTick, 400);
+           if ($scope.session.game.paused) timer = $interval(gameTick, 400);
+              	$scope.session.game.paused = false;
         }
 
         $scope.pause = pause;
