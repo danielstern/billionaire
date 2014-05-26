@@ -43,7 +43,8 @@ angular.module("BillionaireGame", [])
 
 
             _.each(session.market.stocks,function(stock){
-            	stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12))
+            	stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
+            	stock.price = stock.bookValue;
             })
 
             if (session.world.month > session.game.duration) {
@@ -78,8 +79,10 @@ angular.module("BillionaireGame", [])
         		count: count,
         		name: stock.name,
         		symbol: stock.symbol,
-        		price: stock.bookValue
+        		price: stock.price
         	})
+
+        	session.player.cash -= stock.price * count;
         	$('#confirmStockBuyModal').modal();
         }
 

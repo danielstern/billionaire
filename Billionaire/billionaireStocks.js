@@ -10,7 +10,7 @@ angular.module("BillionaireGame")
             name: "Modulus Inc",
             symbol: "MOD",
             category: "technology",
-            growthRate: 1.35,
+            growthRate: 1.22,
             bookValue: "12"
         }]
 

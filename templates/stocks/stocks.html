@@ -1,0 +1,18 @@
+ <h2>Stock Market</h2>
+    <table class='table'>
+
+        <tr ng-repeat="stock in session.market.stocks">
+            <td>
+                <span title="{{stock.name}}">{{stock.symbol}}</span>
+            </td>
+            <td>
+                {{stock.price | currency}}
+            </td>
+            <td>
+                <button ng-click="openBuyStockModal(stock)">BUY</button>
+            </td>
+        </tr>
+    </table>
+
+    <div ng-include="'templates/stocks/stockBuyModal.html'"></div>
+    <div ng-include="'templates/stocks/confirmStockBuyModal.html'"></div>
