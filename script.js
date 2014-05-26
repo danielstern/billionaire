@@ -51,7 +51,7 @@ angular.module("BillionaireGame", [])
             onMonthListeners: [],
             onmonth: function(l) {
                 session.onMonthListeners.push(l);
-              
+
             },
             record: []
         }
@@ -92,7 +92,7 @@ angular.module("BillionaireGame", [])
                 player.cash -= taxes;
                 player.cash -= player.expenses;
 
-                player.age += 1 /12;
+                player.age += 1 / 12;
 
                 var snapshot = _.clone($scope.session);
                 snapshot.monthEnding = {
@@ -175,49 +175,49 @@ angular.module("BillionaireGame", [])
         }
 
     })
-.controller("ActionsController",function($scope){
+    .controller("ActionsController", function($scope) {
 
-    $scope.openConfirmAction = function(action) {
-        console.log("Confirming ", action);
+        $scope.openConfirmAction = function(action) {
+            console.log("Confirming ", action);
 
-        $scope.currentActionHappening = action;
+            $scope.currentActionHappening = action;
 
-        $scope.pause();
-        $('#actionsModal').modal();
-        $('#actionsModal').on('hidden.bs.modal', function() {
-            $scope.unpause();
-        });
+            $scope.pause();
+            $('#actionsModal').modal();
+            $('#actionsModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
 
-    }
+        }
 
 
 
-    $scope.confirmTakeAction = function(action) {
-        console.log("Confirming", action);
+        $scope.confirmTakeAction = function(action) {
+            console.log("Confirming", action);
 
-        action.timeRemaining = action.time;
+            action.timeRemaining = action.time;
 
-        var session = $scope.session;
+            var session = $scope.session;
 
-        $('#actionsModal').modal('hide');
+            $('#actionsModal').modal('hide');
 
-        session.player.cash -= action.cost;
+            session.player.cash -= action.cost;
 
-        session.player.actionsTaken.push(action);
-        action.purchased = true;
+            session.player.actionsTaken.push(action);
+            action.purchased = true;
 
-        var done = false;
-        var monthStarted = $scope.session.world.month;
+            var done = false;
+            var monthStarted = $scope.session.world.month;
 
-        session.onmonth(function(session) {
+            session.onmonth(function(session) {
 
-            if (action.completed) return;
-            action.timeRemaining--;
-            if (!action.timeRemaining) {
-                action.effect($scope.session);
-                action.completed = true;
-            }
-        })
+                if (action.completed) return;
+                action.timeRemaining--;
+                if (!action.timeRemaining) {
+                    action.effect($scope.session);
+                    action.completed = true;
+                }
+            })
 
-    }
-})
+        }
+    })

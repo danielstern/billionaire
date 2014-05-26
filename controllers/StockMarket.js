@@ -76,14 +76,13 @@ angular.module("BillionaireGame")
             var holdings = _.groupBy(stocks,function(stock){
                 return JSON.stringify({
                     symbol: stock.link.symbol,
-                    boughtDate: stock.link.boughtDate,
-                    boughtPrice: stock.link.boughtPrice,
+                    boughtDate: stock.boughtDate,
+                    originalNetCost: stock.originalNetCost,
                 });
             });
 
             _.each(holdings,function(holding){
                 holding.link = holding[0].link;
-                holding.boughtPrice = holding[0].boughtPrice;
                 consolidated.push(holding);
             })
 
