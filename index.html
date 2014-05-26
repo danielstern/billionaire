@@ -1,27 +1,64 @@
 <head>
-<title>Billionaire!</title>
-<script src="bower_components/underscore/underscore.js"></script>
-<script src="bower_components/angular/angular.js"></script>
-<script src="script.js"></script>
-<script src="Billionaire/billionaireStocks.js"></script>
+    <title>Billionaire!</title>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="script.js"></script>
+    <script src="Billionaire/billionaireStocks.js"></script>
+    <script src="Billionaire/billionaireJobs.js"></script>
+
+    <link rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css'>
 </head>
-<body ng-controller="BillionaireGame" ng-app="BillionaireGame">
-	<table>
-		<tr>
-		<th colspan='3'>
-			Stock Market
-		</th>
-	</tr>
-		<tr ng-repeat="stock in session.market.stocks">
-			<td>
-				<span title="{{stock.name}}">{{stock.symbol}}</span>
-			</td>
-			<td>
-				{{stock.bookValue | currency}}
-			</td>
-			<td>
-				<button ng-click="wow()">BUY</button>
-			</td>
-		</tr>
-	</table>
+
+<body class='container' ng-controller="BillionaireGame" ng-app="BillionaireGame">
+    <h2>Stock Market</h2>
+    <table class='table'>
+
+        <tr ng-repeat="stock in session.market.stocks">
+            <td>
+                <span title="{{stock.name}}">{{stock.symbol}}</span>
+            </td>
+            <td>
+                {{stock.bookValue | currency}}
+            </td>
+            <td>
+                <button ng-click="buyStock(stock)">BUY</button>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <h1>Character</h1>
+        {{session.player.job.name}}
+        <table>
+            <tr>
+                <td>
+                    Cash
+                </td>
+                <td>
+                    {{session.player.cash | currency}}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h2>Game</h2>
+        <table>
+            <tr>
+                <td>
+                    Year
+                </td>
+                <td>
+                    {{2014 + session.world.month / 12 | number:0}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Month
+                </td>
+                <td>
+                    {{session.world.month % 12}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
 </body>

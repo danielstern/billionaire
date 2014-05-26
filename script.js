@@ -1,5 +1,7 @@
 angular.module("BillionaireGame", [])
-    .controller("BillionaireGame", function($scope, billionaireStocks, $interval) {
+    .controller("BillionaireGame", function($scope, 
+     billionaireStocks, billionaireJobs,
+     $interval) {
 
         var session = undefined;
         var timer = undefined;
@@ -14,6 +16,9 @@ angular.module("BillionaireGame", [])
                 }],
                 karma: 0,
                 realEstate: [],
+                expenses: 1000,
+                job: undefined,
+                salary: undefined,
                 businesses: []
             },
             world: {
@@ -35,26 +40,33 @@ angular.module("BillionaireGame", [])
         }
 
         function gameTick() {
+            var player = session.player;
+
             session.world.month += 1;
-            session.world.dollarValue /= 1 + ((session.game.inflation - 1) / 12);
+            session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
+
 
             _.each(session.market.stocks,function(stock){
-            	stock.bookValue = stock.bookValue * 1 + ((stock.growthRate - 1) / 12)
+            	stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12))
             })
-
-
-            console.clear();
-            console.log("STOCKS?" ,session.market.stocks[0]);
-            console.log(session.world);
 
             if (session.world.month > session.game.duration) {
                 gameOver();
             }
+
+            player.cash += player.job.salary / 12;
+            player.cash -= player.expenses;
+
+            //if (session.world.month % 12 = 4)
         }
 
         function gameOver() {
             console.log("Game over man!");
-            clearInterval(timer);
+            $interval.cancel(timer);
+        }
+
+        $scope.buyStock = function(stock) {
+        	console.log("buying stock",stock);
         }
 
         newGame();
@@ -62,13 +74,21 @@ angular.module("BillionaireGame", [])
         function newGame() {
             console.log("%c If I had a billion dollars", "color:#f0f");
             var stocks = _.clone(billionaireStocks);
+            var jobs = _.clone(billionaireJobs);
 
             session = _.clone(defaultStats);
             session.market.stocks = stocks;
+            session.allJobs = jobs;
 
-            timer = $interval(gameTick, 100);
+            var player = session.player;
+            player.job = jobs[0];
+
+            timer = $interval(gameTick, 400);
 
             $scope.session = session;
         }
 
     })
+.controller("StockInfo",function($scope){
+
+})
