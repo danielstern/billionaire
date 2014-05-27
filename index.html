@@ -37,20 +37,15 @@
                 {{session.player.job.name}}
             </td>
         </tr>
+    </table>
+    <h3>Income Statement</h3>
+    <table class='table'>
         <tr>
             <td>
                 Paycheque
             </td>
             <td>
                 {{session.player.job.salary / 12 | currency}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Expenses
-            </td>
-            <td>
-                {{session.player.expenses | currency}}
             </td>
         </tr>
         <tr>
@@ -63,10 +58,53 @@
         </tr>
         <tr>
             <td>
+                Expenses
+            </td>
+            <td>
+                {{session.player.expenses | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getMonthlyDebtService()">
+            <td>
+                Monthly Interest Payment
+            </td>
+            <td>
+                {{-session.player.getMonthlyDebtService() | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Cash Flow
+            </td>
+            <td>
+                {{session.player.getCashflow() | currency}}
+            </td>
+        </tr>
+    </table>
+    <h3>Balance Sheet</h3>
+    <table class='table'>
+        <tr>
+            <td>
                 Cash
             </td>
             <td>
                 {{session.player.cash | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getTotalStockValue()">
+            <td>
+                Other Assets
+            </td>
+            <td>
+                {{session.player.getTotalStockValue() | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getTotalDebt()">
+            <td>
+                Debts
+            </td>
+            <td>
+                {{-session.player.getTotalDebt() | currency}}
             </td>
         </tr>
         <tr>
@@ -79,13 +117,13 @@
         </tr>
     </table>
 
-     <h2>Jobs</h2>
+    <h2>Jobs</h2>
     <table class='table'>
         <tr ng-repeat="job in session.allJobs">
             <td>
                 {{job.name}}
             </td>
-            
+
             <td>
                 <button class="btn btn-default" ng-hide="session.player.job == job" ng-click="openConfirmJob(job)">Take Job</button>
             </td>
@@ -93,28 +131,33 @@
     </table>
 
     <div class="modal fade" id='takeJobModal'>
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"  ng-click='unpause()'>&times;</button>
-            <h4 class="modal-title">Job Opportunity: <strong>{{prospectiveJob.name}}</strong></h4>
-          </div>
-          <div class="modal-body">
-            <p>{{prospectiveJob.description}}</p>
-            <p ng-hide="!prospectiveJob.technical">
-               <strong>  {{prospectiveJob.technical}}  </strong>
-            </p>
-            <p ng-hide="prospectiveJob.requirement(session)">
-               <em>  {{prospectiveJob.requirementMessage}}  </em>
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" ng-class="{disabled: !prospectiveJob.requirement(session)}" ng-click="confirmTakeJob(prospectiveJob)">Accept</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
+                    <h4 class="modal-title">Job Opportunity:
+                        <strong>{{prospectiveJob.name}}</strong>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{prospectiveJob.description}}</p>
+                    <p ng-hide="!prospectiveJob.technical">
+                        <strong>{{prospectiveJob.technical}}</strong>
+                    </p>
+                    <p ng-hide="prospectiveJob.requirement(session)">
+                        <em>{{prospectiveJob.requirementMessage}}</em>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-class="{disabled: !prospectiveJob.requirement(session)}" ng-click="confirmTakeJob(prospectiveJob)">Accept</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
 
     <div ng-include="'templates/stocks/stocks.html'"></div>
@@ -145,7 +188,7 @@
     </div>
 
     <h2>Bank</h2>
-      <table class='table'>
+    <table class='table'>
 
         <tr ng-repeat="loan in session.allLoans">
             <td>
@@ -162,24 +205,84 @@
             </td>
         </tr>
     </table>
+    <div class="modal fade" id='takeLoanModal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Loan Offer:
+                        <strong>{{loanOffer.name}}</strong>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{loanOffer.description}}</p>
+                    <p ng-hide="!loanOffer.technical">
+                        <strong>{{loanOffer.technical}}</strong>
+                    </p>
+                    <p ng-hide="loanOffer.requirement(session)">
+                        <em>{{loanOffer.requirementMessage}}</em>
+                    </p>
+
+                    <table class='table'>
+                        <tr>
+                            <td>
+                                Available Credit
+                            </td>
+                            <td>
+                                {{loanOffer.maxCredit | currency}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Amount Requested:
+                            </td>
+                            <td>
+                                $
+                                <input ng-model="loanOffer.amountRequested">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Your Monthly Interest
+                            </td>
+                            <td>
+                                {{loanOffer.amountRequested * loanOffer.interestRate / 12 | currency}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-class="{disabled: !loanOffer.requirement(session)}" ng-click="confirmTakeLoan(loanOffer)">Accept</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
 
     <div class="modal fade" id='worldMessageModal'>
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3 class="modal-title">{{worldMessage.title}}</strong></h3>
-          </div>
-          <div class="modal-body">
-            <p>{{worldMessage.body}}</p>
-          </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-primary" data-dismiss="modal">{{worldMessage.ok || "OK"}}</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">{{worldMessage.title}}</strong>
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{worldMessage.body}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{worldMessage.ok || "OK"}}</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
-  
+
 </body>

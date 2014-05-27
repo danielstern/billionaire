@@ -26,19 +26,42 @@ angular.module("BillionaireGame", [])
                 salaryMultiplier: 0.95,
                 incomeTaxMultiplier: 1.05,
                 capitalGainsMultiplier: 1.05,
-                getNetWorth: function() {
-
+                getTotalAssets: function() {
                     var netWorth = 0;
                     netWorth += this.cash;
-                    _.each(this.stocks,function(stock){
-                        netWorth += stock.link.price;
-                    })
-
+                    netWorth += this.getTotalStockValue();
                     return netWorth;
+                },
+                getTotalStockValue: function() {
+                    var stockValue = 0;
+                    _.each(this.stocks,function(stock){
+                        stockValue += stock.link.price;
+                    });
+                    return stockValue;
+
+                },
+                getCashflow: function() {
+                    var cashflow = 0;
+                    cashflow = this.job.salary / 12 - this.expenses - this.getMonthlyDebtService();
+                    return cashflow;
+
+                },
+                getMonthlyDebtService: function() {
+                    var debtService = 0;
+                    _.each(this.loans,function(loan){
+                        debtService += loan.balance * loan.interestRate / 12;
+                    });
+                    return debtService;
                 },
                 getTotalDebt: function() {
                     var totalDebt = 0;
+                    _.each(this.loans,function(loan){
+                        totalDebt += loan.balance;
+                    })
                     return totalDebt;
+                },
+                getNetWorth: function() {
+                    return this.getTotalAssets() - this.getTotalDebt();
                 }
             },
             world: {
@@ -162,8 +185,41 @@ angular.module("BillionaireGame", [])
 
         $scope.openLoanModal = function(loan) {
             var player = $scope.session.player;
-            console.log("Do you want to take loan",loan);
-            var availableCredit = player.job.salary / 2 + player.getNetWorth() / 2 - player.getTotalDebt();
+            var availableCredit = player.job.salary / 2 + player.getTotalAssets() / 2 - player.getTotalDebt();
+
+            $scope.loanOffer = _.clone(loan);
+            $scope.loanOffer.maxCredit = availableCredit;
+            $scope.loanOffer.amountRequested = $scope.loanOffer.maxCredit.toFixed(2);
+
+            $scope.pause();
+            $('#takeLoanModal').modal();
+            $('#takeLoanModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+
+        }
+
+        $scope.confirmTakeLoan = function(loan) {
+            console.log("Confirm take loan:", loan);
+            var session = $scope.session;
+
+            var player = $scope.session.player;
+            var note = {
+                balance: parseFloat(loan.amountRequested),
+                interestRate: loan.interestRate,
+                date: session.world.month,
+                totalPrincipalPaid: 0,
+                totalInterestPaid: 0
+            }
+
+            $scope.onmonth(function(session){
+                player.cash -= note.balance * note.interestRate / 12;
+            })
+
+            player.cash += note.balance;
+            player.loans.push(note);
+            $('#takeLoanModal').modal('hide');
 
         }
 
