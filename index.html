@@ -135,6 +135,25 @@
 
     </div>
 
+    <h2>Bank</h2>
+      <table class='table'>
+
+        <tr ng-repeat="loan in session.market.loans">
+            <td>
+                {{loan.name}}
+            </td>
+            <td>
+                {{loan.maximum}}
+            </td>
+            <td>
+                {{loan.interest}}
+            </td>
+            <td>
+                <button ng-click="openBuyStockModal(stock)">BUY</button>
+            </td>
+        </tr>
+    </table>
+
 
     <div class="modal fade" id='worldMessageModal'>
       <div class="modal-dialog">
