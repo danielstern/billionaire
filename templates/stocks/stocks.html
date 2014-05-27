@@ -17,6 +17,7 @@
     </table>
 
 
+   <div ng-hide="!session.player.holdings">
     <h3>Your Stocks</h3>
 
     <table class='table'>
@@ -67,6 +68,7 @@
             </td>
         </tr>
     </table>
+</div>
 
     <div ng-include="'templates/stocks/confirmStockBuyModal.html'"></div>
     <div ng-include="'templates/stocks/stockBuyModal.html'"></div>

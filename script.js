@@ -200,6 +200,34 @@ angular.module("BillionaireGame", [])
 
         }
 
+        $scope.openRepayLoanModal = function(loan) {
+
+            $scope.loanToBeRepayed = loan;
+            $scope.loanToBeRepayed.amountToRepay = _.max([$scope.loanToBeRepayed.balance.toFixed(2), $scope.session.player.cash.toFixed(2)]);
+
+            $scope.pause();
+            $('#repayLoanModal').modal();
+            $('#repayLoanModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+        }
+
+        $scope.confirmRepayLoan = function(loan) {
+
+            var player = $scope.session.player;
+
+            player.cash -= loan.amountToRepay;
+            loan.balance -= loan.amountToRepay;
+
+            if (loan.balance < 1) {
+                player.loans = _.without(player.loans, loan);
+            }
+
+            $('#repayLoanModal').modal('hide');
+
+        }
+
         $scope.confirmTakeLoan = function(loan) {
             console.log("Confirm take loan:", loan);
             var session = $scope.session;
