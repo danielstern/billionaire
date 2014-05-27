@@ -10,6 +10,7 @@
     <script src="Billionaire/billionaireJobs.js"></script>
     <script src="Billionaire/billionaireEvents.js"></script>
     <script src="Billionaire/billionaireActions.js"></script>
+    <script src="Billionaire/billionaireLoans.js"></script>
     <script src="controllers/StockMarket.js"></script>
     <script src="controllers/Actions.js"></script>
 
@@ -66,6 +67,14 @@
             </td>
             <td>
                 {{session.player.cash | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Net Worth
+            </td>
+            <td>
+                {{session.player.getNetWorth() | currency}}
             </td>
         </tr>
     </table>
@@ -138,7 +147,7 @@
     <h2>Bank</h2>
       <table class='table'>
 
-        <tr ng-repeat="loan in session.market.loans">
+        <tr ng-repeat="loan in session.allLoans">
             <td>
                 {{loan.name}}
             </td>
@@ -146,10 +155,10 @@
                 {{loan.maximum}}
             </td>
             <td>
-                {{loan.interest}}
+                {{loan.interestRate}}
             </td>
             <td>
-                <button ng-click="openBuyStockModal(stock)">BUY</button>
+                <button ng-click="openLoanModal(loan)">Take Loan</button>
             </td>
         </tr>
     </table>

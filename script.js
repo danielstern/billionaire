@@ -1,6 +1,7 @@
 angular.module("BillionaireGame", [])
     .controller("BillionaireGame", function($scope,
         billionaireStocks, billionaireJobs, billionaireEvents, billionaireActions,
+        billionaireLoans,
         $interval, $timeout
     ) {
 
@@ -14,6 +15,7 @@ angular.module("BillionaireGame", [])
                 stocks: [],
                 stockHistory: [],
                 realEstate: [],
+                loans: [],
                 expenses: 1000,
                 job: undefined,
                 salary: undefined,
@@ -24,6 +26,20 @@ angular.module("BillionaireGame", [])
                 salaryMultiplier: 0.95,
                 incomeTaxMultiplier: 1.05,
                 capitalGainsMultiplier: 1.05,
+                getNetWorth: function() {
+
+                    var netWorth = 0;
+                    netWorth += this.cash;
+                    _.each(this.stocks,function(stock){
+                        netWorth += stock.link.price;
+                    })
+
+                    return netWorth;
+                },
+                getTotalDebt: function() {
+                    var totalDebt = 0;
+                    return totalDebt;
+                }
             },
             world: {
                 month: 1,
@@ -64,7 +80,6 @@ angular.module("BillionaireGame", [])
         $scope.onNewGameListeners = [];
         $scope.onnewgame = function(l) {
             $scope.onNewGameListeners.push(l);
-            console.log("On new game...", $scope.onNewGameListeners);
         };
 
         function gameTick() {
@@ -145,6 +160,13 @@ angular.module("BillionaireGame", [])
 
         }
 
+        $scope.openLoanModal = function(loan) {
+            var player = $scope.session.player;
+            console.log("Do you want to take loan",loan);
+            var availableCredit = player.job.salary / 2 + player.getNetWorth() / 2 - player.getTotalDebt();
+
+        }
+
 
         $scope.pause = function pause() {
             $interval.cancel(timer);
@@ -192,12 +214,14 @@ angular.module("BillionaireGame", [])
             var jobs = _.clone(billionaireJobs);
             var events = _.clone(billionaireEvents);
             var actions = _.clone(billionaireActions);
+            var loans = _.clone(billionaireLoans);
 
             session = _.clone(defaultStats);
             session.market.stocks = stocks;
             session.allEvents = events;
             session.allActions = actions;
             session.allJobs = jobs;
+            session.allLoans = loans;
 
             var player = session.player;
             player.job = jobs[0];
@@ -224,10 +248,10 @@ angular.module("BillionaireGame", [])
                     l(session);
                 })
 
-                $scope.broadcastMessage({
+              /*  $scope.broadcastMessage({
                     title:"Welcome to Billionaire",
                     body:"You are a young delivery boy. You must work your way up the ladder and become a billionaire before time runs out. Try and make as much money as you can, but if you get too old, or get too much debt, it's game over."
-                })
+                })*/
             }, 100);
 
           
@@ -241,3 +265,4 @@ angular.module("BillionaireGame", [])
 
 
     })
+.controller('BillionaireBank')
