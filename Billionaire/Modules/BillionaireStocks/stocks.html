@@ -1,0 +1,76 @@
+
+<unit ng-controller='StockMarket'>
+    <h2>Stock Market</h2>
+    <table class='table'>
+
+        <tr ng-repeat="stock in session.market.stocks">
+            <td>
+                <span title="{{stock.name}}">{{stock.symbol}}</span>
+            </td>
+            <td>
+                {{stock.price | currency}}
+            </td>
+            <td>
+                <button ng-click="openBuyStockModal(stock)">BUY</button>
+            </td>
+        </tr>
+    </table>
+
+
+   <div ng-hide="!session.player.holdings">
+    <h3>Your Stocks</h3>
+
+    <table class='table'>
+        <thead>
+            <td>
+                Stock Name
+            </td>
+            <td>
+                # Owned
+            </td>
+            <td>
+                Purchased For
+            </td>
+            <td>
+                Price Now
+            </td>
+            <td>
+                Current Value of Holdings
+            </td>
+            <td>
+                Rate of Return
+            </td>
+            <td>
+                Sell?
+            </td>
+        </tr>
+        <tr ng-repeat="holding in session.player.holdings">
+            <td>
+                <span title="{{holding.link.name}}">{{holding.link.symbol}}</span>
+            </td>
+            <td>
+                {{holding.length}}
+            </td>
+            <td>
+                {{holding[0].originalNetCost | currency}}
+            </td>
+            <td>
+                {{holding.link.price | currency}}
+            </td>
+            <td>
+                {{holding.link.price * holding.length | currency}}
+            </td>
+            <td>
+                {{getROR(holding[0]) | number:1}}%
+            </td>
+            <td>
+                 <button ng-click="openSellStockModal(holding)">SELL</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+    <div ng-include="'templates/stocks/confirmStockBuyModal.html'"></div>
+    <div ng-include="'templates/stocks/stockBuyModal.html'"></div>
+    <div ng-include="'templates/stocks/stockSellModal.html'"></div>
+ </unit>

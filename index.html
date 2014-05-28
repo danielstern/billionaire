@@ -117,50 +117,8 @@
         </tr>
     </table>
 
-    <h2>Jobs</h2>
-    <table class='table'>
-        <tr ng-repeat="job in session.allJobs">
-            <td>
-                {{job.name}}
-            </td>
-
-            <td>
-                <button class="btn btn-default" ng-hide="session.player.job == job" ng-click="openConfirmJob(job)">Take Job</button>
-            </td>
-        </tr>
-    </table>
-
-    <div class="modal fade" id='takeJobModal'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
-                    <h4 class="modal-title">Job Opportunity:
-                        <strong>{{prospectiveJob.name}}</strong>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{prospectiveJob.description}}</p>
-                    <p ng-hide="!prospectiveJob.technical">
-                        <strong>{{prospectiveJob.technical}}</strong>
-                    </p>
-                    <p ng-hide="prospectiveJob.requirement(session)">
-                        <em>{{prospectiveJob.requirementMessage}}</em>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" ng-class="{disabled: !prospectiveJob.requirement(session)}" ng-click="confirmTakeJob(prospectiveJob)">Accept</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
 
 
-    <div ng-include="'templates/stocks/stocks.html'"></div>
     <div ng-include="'Billionaire/Modules/billionaireActions.html'"></div>
     <div ng-include="'templates/events/eventsModal.html'"></div>
 
