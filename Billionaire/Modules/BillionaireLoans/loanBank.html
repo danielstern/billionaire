@@ -1,0 +1,19 @@
+  
+  <h2>Bank</h2>
+  <table class='table'>
+
+      <tr ng-repeat="loan in session.allLoans">
+          <td>
+              {{loan.name}}
+          </td>
+          <td>
+              {{loan.maximum}}
+          </td>
+          <td>
+              {{loan.interestRate}}
+          </td>
+          <td>
+              <button ng-click="openLoanModal(loan)">Take Loan</button>
+          </td>
+      </tr>
+  </table>

@@ -23,6 +23,20 @@ angular.module("BillionaireGame.Stocks")
 	})
 
 
+	this.sellStocks = function(holding,count,session) {
+
+		for (var i = 0; i < count; i++) {
+		    var stock = _.find(session.player.stocks, function(stock) {
+		        if (stock.originalNetCost == holding[0].originalNetCost && stock.boughtDate == holding[0].boughtDate && stock.link == holding[0].link) {
+		            return true;
+		        }
+		    });
+
+		    session.player.stocks = _.without(session.player.stocks, stock);
+		}
+
+		session.player.cash += (count * holding[0].link.price) - (count * holding.taxPerUnit);
+	}
 	
 	this.consolidateStocks = function(session) {
 

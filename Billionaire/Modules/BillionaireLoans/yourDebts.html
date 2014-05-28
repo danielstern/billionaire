@@ -1,0 +1,21 @@
+<h2>Your Debts</h2>
+  <table class='table'>
+
+      <tr ng-repeat="loan in session.player.loans">
+          <td>
+              {{loan.name}}
+          </td>
+          <td>
+              {{loan.balance}}
+          </td>
+          <td>
+              {{loan.interestRate}}
+          </td>
+          <td>
+              {{loan.balance * loan.interestRate / 12}}
+          </td>
+          <td>
+              <button ng-click="openRepayLoanModal(loan)">Repay Loan</button>
+          </td>
+      </tr>
+  </table>

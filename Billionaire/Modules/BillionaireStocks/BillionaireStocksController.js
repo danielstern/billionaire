@@ -82,18 +82,8 @@ angular.module("BillionaireGame.Stocks")
         $scope.confirmSellStock = function(holding, count) {
 
             billionaireDriverService.pause();
+            billionaireStockMarketService.sellStocks(holding,count,$scope.session);
 
-            for (var i = 0; i < count; i++) {
-                var stock = _.find($scope.session.player.stocks, function(stock) {
-                    if (stock.originalNetCost == holding[0].originalNetCost && stock.boughtDate == holding[0].boughtDate && stock.link == holding[0].link) {
-                        return true;
-                    }
-                });
-
-                $scope.session.player.stocks = _.without($scope.session.player.stocks, stock);
-            }
-
-            $scope.session.player.cash += (count * holding[0].link.price) - (count * holding.taxPerUnit);
 
             $('#stockSellModal').modal('hide');
             if (!$scope.session.confirming) billionaireDriverService.unpause();

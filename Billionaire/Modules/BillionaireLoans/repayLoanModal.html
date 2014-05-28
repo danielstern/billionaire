@@ -1,0 +1,47 @@
+<div class="modal fade" id='repayLoanModal'>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Repay Loan:
+                    <strong>{{loanToBeRepayed.name}}</strong>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p ng-hide="!loanToBeRepayed.technical">
+                    <strong>{{loanToBeRepayed.technical}}</strong>
+                </p>
+                <p ng-hide="loanToBeRepayed.requirement(session)">
+                    <em>{{loanToBeRepayed.requirementMessage}}</em>
+                </p>
+
+                <table class='table'>
+                    <tr>
+                        <td>
+                            Available Owing
+                        </td>
+                        <td>
+                            {{loanToBeRepayed.balance | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Amount to Repay:
+                        </td>
+                        <td>
+                            $
+                            <input ng-model="loanToBeRepayed.amountToRepay">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-class="{disabled: loanToBeRepayed.amountToRepay > session.player.cash}" ng-click="confirmRepayLoan(loanToBeRepayed)">Repay Loan</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

@@ -1,9 +1,8 @@
-
-    <div class="modal fade" id='stockSellModal'>
+ <div class="modal fade" id='stockSellModal'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title">Sell Stock: {{deal.link.name}} <strong>({{deal.link.symbol}})</strong></h4>
           </div>
           <div class="modal-body">
@@ -107,7 +106,7 @@
             </table>  
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" ng-class="{disabled: deal.amountToSell > deal.sharesAvailable}" ng-click="confirmSellStock(deal,deal.amountToSell)">Sell</button>
           </div>
         </div><!-- /.modal-content -->
