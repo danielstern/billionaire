@@ -1,1 +1,1 @@
-angular.module('BillionaireGame.Actions');
+angular.module('BillionaireGame.Actions',[]);

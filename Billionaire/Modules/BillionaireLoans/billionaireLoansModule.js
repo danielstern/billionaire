@@ -1,1 +1,1 @@
-angular.module('BillionaireGame.Jobs');
+angular.module('BillionaireGame.Jobs',[]);
