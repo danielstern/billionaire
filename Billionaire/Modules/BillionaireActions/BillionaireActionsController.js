@@ -2,8 +2,7 @@ angular.module("BillionaireGame.Actions")
     .controller("ActionsController", function($scope,billionaireDriverService) {
 
         $scope.openConfirmAction = function(action) {
-            console.log("Confirming ", action);
-
+            
             $scope.currentActionHappening = action;
 
             billionaireDriverService.pause();
@@ -15,8 +14,7 @@ angular.module("BillionaireGame.Actions")
         }
 
         $scope.confirmTakeAction = function(action) {
-            console.log("Confirming", action);
-
+            
             action.timeRemaining = action.time;
 
             var session = $scope.session;

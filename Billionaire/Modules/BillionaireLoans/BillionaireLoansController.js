@@ -1,5 +1,5 @@
 angular.module("BillionaireGame.Loans")
-    .controller("BillionareLoansController", function($scope) {
+    .controller("BillionaireLoansController", function($scope,billionaireDriverService) {
 
         $scope.openLoanModal = function(loan) {
             var player = $scope.session.player;
@@ -9,13 +9,11 @@ angular.module("BillionaireGame.Loans")
             $scope.loanOffer.maxCredit = availableCredit;
             $scope.loanOffer.amountRequested = $scope.loanOffer.maxCredit.toFixed(2);
 
-            $scope.pause();
+            billionaireDriverService.pause();
             $('#takeLoanModal').modal();
             $('#takeLoanModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
+                billionaireDriverService.unpause();
             });
-
-
         }
 
         $scope.openRepayLoanModal = function(loan) {
@@ -23,10 +21,10 @@ angular.module("BillionaireGame.Loans")
             $scope.loanToBeRepayed = loan;
             $scope.loanToBeRepayed.amountToRepay = _.max([$scope.loanToBeRepayed.balance.toFixed(2), $scope.session.player.cash.toFixed(2)]);
 
-            $scope.pause();
+            billionaireDriverService.pause();
             $('#repayLoanModal').modal();
             $('#repayLoanModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
+                billionaireDriverService.unpause();
             });
 
         }
@@ -59,7 +57,7 @@ angular.module("BillionaireGame.Loans")
                 totalInterestPaid: 0
             }
 
-            $scope.onmonth(function(session){
+            billionaireDriverService.onmonth(function(session){
                 player.cash -= note.balance * note.interestRate / 12;
             })
 

@@ -4,7 +4,7 @@ angular.module("BillionaireGame",
     'BillionaireGame.Jobs',
     'BillionaireGame.Actions',
     'BillionaireGame.Events',
-    //'BillionaireGame.Loans',
+    'BillionaireGame.Loans',
     //'BillionaireGame.Stocks',
     ])
     

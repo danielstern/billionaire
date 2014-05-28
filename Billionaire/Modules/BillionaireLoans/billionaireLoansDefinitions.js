@@ -1,5 +1,5 @@
 angular.module("BillionaireGame.Loans")
-    .service("billionaireLoans.definitions", function() {
+    .service("billionaireLoansDefinitions", function() {
         var loans = [{
             name: "Consumer Loan",
             interestRate: 0.28,
