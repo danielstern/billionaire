@@ -26,5 +26,6 @@ angular.module("BillionaireGame.Events")
 
                 game.timeSinceLastEvent = game.eventCoolDownMonths;
             }
-        }
         })
+    }
+})
