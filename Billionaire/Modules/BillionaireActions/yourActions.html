@@ -1,0 +1,19 @@
+<h3>Your Actions</h3>
+
+<table class='table'>
+    <tr ng-repeat="action in session.player.actionsTaken">
+        <td>
+            {{action.name}}
+        </td>
+        <td ng-if="action.timeRemaining">
+            In Progress
+        </td>
+        <td ng-if="!action.timeRemaining">
+            Completed
+        </td>
+        <td ng-if="action.timeRemaining">
+            {{action.timeRemaining}} Months Left Until Completion
+        </td>
+
+    </tr>
+</table>
