@@ -1,5 +1,5 @@
-angular.module("BillionaireGame.stocks")
-    .controller("StockMarket", function($scope, $rootScope) {
+angular.module("BillionaireGame.Stocks")
+    .controller("BillionaireStocksController", function($scope, $rootScope,billionaireDriverService) {
 
         $scope.openBuyStockModal = function(stock) {
 
@@ -20,15 +20,15 @@ angular.module("BillionaireGame.stocks")
 
             $('#stockBuyModal').modal();
             $('#stockBuyModal').on('hidden.bs.modal', function() {
-                if (!$scope.session.confirming) $scope.unpause();
+                if (!$scope.session.confirming) billionaireDriverService.unpause();
             });
 
-            $scope.pause();
+            billionaireDriverService.pause();
         }
 
-        $scope.onnewgame(function(){
+        billionaireDriverService.onnewgame(function(){
 
-            $scope.onmonth(function(session) {
+            billionaireDriverService.onmonth(function(session) {
 
                 var game = session.game;
 
@@ -40,13 +40,15 @@ angular.module("BillionaireGame.stocks")
                     stock.price *= marketMood;
                 })
 
+                session.player.holdings = $scope.consolidateStocks(session);
+
             });
 
         })
 
         $scope.confirmBuyStock = function(deal, count, comission) {
 
-            $scope.pause();
+            billionaireDriverService.pause();
             $scope.session.confirming = true;
             $('#stockBuyModal').modal('hide');
 
@@ -64,7 +66,7 @@ angular.module("BillionaireGame.stocks")
             $scope.session.player.cash -= (deal.totalCost);
             $('#confirmStockBuyModal').modal();
             $('#confirmStockBuyModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
+                billionaireDriverService.unpause();
                 $scope.session.confirming = false;
             });
         }
@@ -80,17 +82,17 @@ angular.module("BillionaireGame.stocks")
 
             $('#stockSellModal').modal();
             $('#stockSellModal').on('hidden.bs.modal', function() {
-                if (!$scope.session.confirming) $scope.unpause();
+                if (!$scope.session.confirming) billionaireDriverService.unpause();
             });
 
 
-            $scope.pause();
+            billionaireDriverService.pause();
         }
 
 
         $scope.confirmSellStock = function(holding, count) {
 
-            $scope.pause();
+            billionaireDriverService.pause();
 
             for (var i = 0; i < count; i++) {
                var stock = _.find($scope.session.player.stocks,function(stock){
@@ -107,7 +109,7 @@ angular.module("BillionaireGame.stocks")
             $scope.session.player.cash += (count * holding[0].link.price) - (count * holding.taxPerUnit);
 
             $('#stockSellModal').modal('hide');
-            if (!$scope.session.confirming) $scope.unpause();
+            if (!$scope.session.confirming) billionaireDriverService.unpause();
          
         }
 

@@ -1,4 +1,4 @@
-angular.module("BillionaireGame.stocks")
+angular.module("BillionaireGame.Stocks")
     .service("billionaireStocksDefinitions", function() {
         var stocks = [{
             name: "Evil Corporation",

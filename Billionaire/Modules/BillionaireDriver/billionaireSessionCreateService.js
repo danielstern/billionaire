@@ -2,7 +2,7 @@ angular.module("BillionaireGame.Driver")
     .service("billionaireSessionCreateService", function(
         billionaireJobsDefinitions,
         billionaireActionsDefinitions,
-        //billionaireStocksDefintions,
+        billionaireStocksDefinitions,
         billionaireLoansDefinitions,
         billionaireEventsDefinitions
     ) {
@@ -109,11 +109,10 @@ angular.module("BillionaireGame.Driver")
             var loans = _.clone(billionaireLoansDefinitions);
             session.allLoans = loans;
 
+            var stocks = _.clone(billionaireStocksDefinitions);
+            session.market.stocks = stocks;
 
             try {
-                var stocks = _.clone(billionaireStocksDefinitions);
-
-                session.market.stocks = stocks;
 
             } catch (e) {
                 console.warn("Error forming game. Forcing");

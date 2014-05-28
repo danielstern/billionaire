@@ -18,7 +18,7 @@ angular.module("BillionaireGame.Events")
     }
 
     function activateEvents(session) {
-        console.log("activating events");
+        
         billionaireDriverService.onmonth(function(session) {
             if (Math.random() * session.game.eventFrequency < 1) {
                 var game = session.game;

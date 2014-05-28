@@ -4,10 +4,10 @@ angular.module("BillionaireGame.Driver")
     $scope.broadcastMessage = function(message) {
         $scope.worldMessage = message;
 
-        $scope.pause();
+        billionaireDriverService.pause();
         $('#worldMessageModal').modal();
         $('#worldMessageModal').on('hidden.bs.modal', function() {
-            $scope.unpause();
+            billionaireDriverService.unpause();
         });
 
     }

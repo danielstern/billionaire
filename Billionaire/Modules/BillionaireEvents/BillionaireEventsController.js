@@ -3,7 +3,7 @@ angular.module("BillionaireGame.Events")
     	billionaireEventsService,billionaireDriverService
     	) {
 
-    	console.log("event controller active");
+    	
 
         billionaireEventsService.onevent(function(eventNotice) {
 
