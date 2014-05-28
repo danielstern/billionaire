@@ -1,0 +1,144 @@
+  <h1>Character</h1>
+
+    <table class='table'>
+        <tr>
+            <td>
+                Age
+            </td>
+            <td>
+                {{session.player.age | number:0}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Job
+            </td>
+            <td>
+                {{session.player.job.name}}
+            </td>
+        </tr>
+    </table>
+
+    <h3>Income Statement</h3>
+    <table class='table'>
+        <tr>
+            <td>
+                Paycheque
+            </td>
+            <td>
+                {{session.player.job.salary / 12 | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Income Tax Rate
+            </td>
+            <td>
+                {{session.player.job.taxRate * session.player.incomeTaxMultiplier * 100 | number:2 }}%
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Expenses
+            </td>
+            <td>
+                {{session.player.expenses | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getMonthlyDebtService()">
+            <td>
+                Monthly Interest Payment
+            </td>
+            <td>
+                {{-session.player.getMonthlyDebtService() | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Cash Flow
+            </td>
+            <td>
+                {{session.player.getCashflow() | currency}}
+            </td>
+        </tr>
+    </table>
+    <h3>Balance Sheet</h3>
+    <table class='table'>
+        <tr>
+            <td>
+                Cash
+            </td>
+            <td>
+                {{session.player.cash | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getTotalStockValue()">
+            <td>
+                Other Assets
+            </td>
+            <td>
+                {{session.player.getTotalStockValue() | currency}}
+            </td>
+        </tr>
+        <tr ng-hide="!session.player.getTotalDebt()">
+            <td>
+                Debts
+            </td>
+            <td>
+                {{-session.player.getTotalDebt() | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Net Worth
+            </td>
+            <td>
+                {{session.player.getNetWorth() | currency}}
+            </td>
+        </tr>
+    </table>
+
+    <div>
+        <h2>Game</h2>
+        <table class='table'>
+            <tr>
+                <td>
+                    Year
+                </td>
+                <td>
+                    {{2014 + session.world.month / 12 | number:0}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Month
+                </td>
+                <td>
+                    {{session.world.month % 12}}
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <div class="modal fade" id='worldMessageModal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">{{worldMessage.title}}</strong>
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{worldMessage.body}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">{{worldMessage.ok || "OK"}}</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->

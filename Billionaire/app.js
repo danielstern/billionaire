@@ -1,6 +1,6 @@
 angular.module("BillionaireGame", 
     [
-    'BillionaireGame.Driver',
+    //'BillionaireGame.Driver',
     //'BillionaireGame.Actions',
     //'BillionaireGame.Events',
     //'BillionaireGame.Loans',
