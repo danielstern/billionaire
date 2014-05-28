@@ -1,13 +1,14 @@
 angular.module("BillionaireGame.Driver")
 .service('billionaireDriverService', function(
     billionaireSessionCreateService,
-    $timeout, $interval
-    ) {
+    $timeout, $interval ) {
+
 
         this.onNewGameListeners = [];
         this.onMonthListeners = [];
 
         var driver = this;  
+        var session = undefined;
 
         this.onmonth = function(l) {
             this.onMonthListeners = this.onMonthListeners || [];
@@ -32,8 +33,6 @@ angular.module("BillionaireGame.Driver")
             var player = session.player;
             var game = session.game;
 
-            //  debugger;
-
             if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
 
             session.world.month += 1;
@@ -44,10 +43,8 @@ angular.module("BillionaireGame.Driver")
             }
 
             if (player.cash < -25000) {
-                driver.gameOver();
+                driver.gameOver(  );
             }
-
-            //player.holdings = driver.consolidateStocks();
 
             var income = player.job.salary / 12 * player.salaryMultiplier;
             var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
@@ -74,13 +71,11 @@ angular.module("BillionaireGame.Driver")
                 ok: "Play again"
             })*/
 
-
             $interval.cancel(timer);
         }
 
         this.onnewgame(function(session){
             timer = $interval(function(){driver.gameTick(session)}, session.game.speed);
-
 
             /*  $scope.broadcastMessage({
                 title:"Welcome to Billionaire",
@@ -92,19 +87,19 @@ angular.module("BillionaireGame.Driver")
 
         this.pause = function pause() {
             $interval.cancel(timer);
-            $scope.session.game.paused = true;
+            session.game.paused = true;
         };
 
         this.unpause = function unpause() {
-            if ($scope.session.game.paused) timer = $interval(gameTick, $scope.session.game.speed);
-            $scope.session.game.paused = false;
+            if (session.game.paused) timer = $interval(this.gameTick, session.game.speed);
+            session.game.paused = false;
         }
 
         var timer = undefined;
 
         this.newGame = function() {
 
-            var session = billionaireSessionCreateService.getNewSession();
+            session = billionaireSessionCreateService.getNewSession();
             $timeout(function() {
                 _.each(driver.onNewGameListeners, function(l) {
                     l(session);

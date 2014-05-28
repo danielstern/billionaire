@@ -1,13 +1,17 @@
 angular.module("BillionaireGame.Jobs")
-    .controller("BillionareJobsController", function($scope) {
+    .controller("BillionaireJobsController", function($scope, billionaireDriverService) {
+
+        billionaireDriverService.onmonth(function(session){
+            
+        })
 
         $scope.openConfirmJob = function(job) {
             $scope.prospectiveJob = job;
 
-            $scope.pause();
+            billionaireDriverService.pause();
             $('#takeJobModal').modal();
             $('#takeJobModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
+                billionaireDriverService.unpause();
             });
 
         }

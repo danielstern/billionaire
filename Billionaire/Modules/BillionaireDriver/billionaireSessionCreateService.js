@@ -98,6 +98,8 @@ angular.module("BillionaireGame.Driver")
         var session = _.clone(defaultStats);
 
         var jobs = _.clone(billionaireJobsDefinitions);
+        session.allJobs = jobs;
+        
         try {
         var stocks = _.clone(billionaireStocksDefinitions);
         var events = _.clone(billionaireEventsDefinitions);
@@ -107,7 +109,6 @@ angular.module("BillionaireGame.Driver")
         session.market.stocks = stocks;
         session.allEvents = events;
         session.allActions = actions;
-        session.allJobs = jobs;
         session.allLoans = loans;
 
         } catch (e) {
