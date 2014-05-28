@@ -1,31 +1,19 @@
 angular.module("BillionaireGame.Events")
-    .controller("EventsService", function() {
+    .controller('BillionaireEventsController', function($scope, 
+    	billionaireEventsService,billionaireDriverService
+    	) {
 
-    this.init = function(session) {
-        session.onnewgame(activateEvents);
-    }
+    	console.log("event controller active");
 
-    function enableEvents(session) {
-        session.onmonth(function(session) {
-            if (Math.random() * session.game.eventFrequency < 1) {
-                var game = session.game;
+        billionaireEventsService.onevent(function(eventNotice) {
 
-                if (game.timeSinceLastEvent) return;
+        	$scope.currentEventHappening = eventNotice;
+            billionaireDriverService.pause();
+            $('#eventModal').modal();
+            $('#eventModal').on('hidden.bs.modal', function() {
+                billionaireDriverService.unpause();
+            });
 
-                var _event = _.sample(session.allEvents);
-
-                $scope.currentEventHappening = _event;
-
-                $scope.pause();
-                $('#eventModal').modal();
-                $('#eventModal').on('hidden.bs.modal', function() {
-                    $scope.unpause();
-                });
-
-                _event.effect(session);
-
-                game.timeSinceLastEvent = game.eventCoolDownMonths;
-            }
         })
-    }
-})
+
+    })

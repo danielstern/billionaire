@@ -1,6 +1,5 @@
 angular.module("BillionaireGame.Driver")
-.controller("BillionaireMasterController", function($scope, billionaireDriverService) {
-
+.controller("BillionaireMasterController", function($scope, billionaireDriverService,billionaireEventsService) {
 
     $scope.broadcastMessage = function(message) {
         $scope.worldMessage = message;

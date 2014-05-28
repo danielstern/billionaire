@@ -1,10 +1,10 @@
 angular.module("BillionaireGame.Driver")
 .service("billionaireSessionCreateService",function(
     billionaireJobsDefinitions,
-    billionaireActionsDefinitions
-    /*billionaireStocksDefintions,
-    billionaireLoansDefinitions,
-    billionaireEventsDefinitions*/
+    billionaireActionsDefinitions,
+    //billionaireStocksDefintions,
+    //billionaireLoansDefinitions,
+    billionaireEventsDefinitions
     ){
 
     var defaultStats = {
@@ -103,13 +103,14 @@ angular.module("BillionaireGame.Driver")
         var actions = _.clone(billionaireActionsDefinitions);
         session.allActions = actions;
         
+        var events = _.clone(billionaireEventsDefinitions);
+        session.allEvents = events;
+
         try {
         var stocks = _.clone(billionaireStocksDefinitions);
-        var events = _.clone(billionaireEventsDefinitions);
         var loans = _.clone(billionaireLoansDefinitions);
 
         session.market.stocks = stocks;
-        session.allEvents = events;
         session.allLoans = loans;
 
         } catch (e) {
