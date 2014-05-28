@@ -47,22 +47,46 @@ Events happen randomly and effect the session like stock market and opportunitie
 Events have effects and requirements.
 
 ####Jobs
--------
 You can only have one job at a time and they have a passive effect.
 
 Jobs have effects and requirements.
 
 ####Loans
---------
 
 Loans add money to your pocket and you have to pay them back over time.
 Loans have different interest rates and different requiremens.
 
 ####Stocks
---------
+
 Stocks go up in value over time (generally.) You can buy and sell stocks and need to do so in order to be a billionaire.
 
 Stocks can have requirements and can have special effects.
+
+Kernel Description
+-----------
+Game is inited by creating an instance of `BillionaireMasterController` controller.
+
+```html
+	<div ng-controller="BillionaireMasterController"></div>
+```
+
+Additional modules must be added to the following places,
+- Files must be loaded in Index
+- Module needs to be required by the `BillionaireGame` module
+- Controller needs to be added.
+
+The game driver dispatches an "onmonth" event every time the game's unit of time passes. All modules can listen for this event to do effects.
+
+Session Description
+----------
+The game is managed by a `session` object which is available through `$scope` and through a service (todo).
+
+Session has the following properties:
+###session.player
+A player object with various properties.
+####player.cash
+How much cash the player has on hand.
+####
 
 To Do
 ------
