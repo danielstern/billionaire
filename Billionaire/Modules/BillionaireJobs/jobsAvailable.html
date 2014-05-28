@@ -1,0 +1,12 @@
+  <h2>Jobs</h2>
+    <table class='table'>
+        <tr ng-repeat="job in session.allJobs">
+            <td>
+                {{job.name}}
+            </td>
+
+            <td>
+                <button class="btn btn-default" ng-hide="session.player.job == job" ng-click="openConfirmJob(job)">Take Job</button>
+            </td>
+        </tr>
+    </table>
