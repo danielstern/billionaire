@@ -1,5 +1,5 @@
 angular.module("BillionaireGame.Actions")
-    .service("billionaireActionsDefintions", function() {
+    .service("billionaireActionsDefinitions", function() {
         var actions = [{
             name: "Go to Community College",
             cost: 3000,

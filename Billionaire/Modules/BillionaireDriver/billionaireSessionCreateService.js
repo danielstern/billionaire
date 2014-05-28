@@ -1,9 +1,9 @@
 angular.module("BillionaireGame.Driver")
 .service("billionaireSessionCreateService",function(
-    billionaireJobsDefinitions
+    billionaireJobsDefinitions,
+    billionaireActionsDefinitions
     /*billionaireStocksDefintions,
     billionaireLoansDefinitions,
-    billionaireActionsDefinitions,
     billionaireEventsDefinitions*/
     ){
 
@@ -99,16 +99,17 @@ angular.module("BillionaireGame.Driver")
 
         var jobs = _.clone(billionaireJobsDefinitions);
         session.allJobs = jobs;
+
+        var actions = _.clone(billionaireActionsDefinitions);
+        session.allActions = actions;
         
         try {
         var stocks = _.clone(billionaireStocksDefinitions);
         var events = _.clone(billionaireEventsDefinitions);
-        var actions = _.clone(billionaireActionsDefinitions);
         var loans = _.clone(billionaireLoansDefinitions);
 
         session.market.stocks = stocks;
         session.allEvents = events;
-        session.allActions = actions;
         session.allLoans = loans;
 
         } catch (e) {

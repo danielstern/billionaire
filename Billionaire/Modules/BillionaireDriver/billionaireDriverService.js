@@ -32,6 +32,8 @@ angular.module("BillionaireGame.Driver")
             var driver = this;
             var player = session.player;
             var game = session.game;
+            
+            //debugger;
 
             if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
 
@@ -75,8 +77,7 @@ angular.module("BillionaireGame.Driver")
         }
 
         this.onnewgame(function(session){
-            timer = $interval(function(){driver.gameTick(session)}, session.game.speed);
-
+            driver.unpause(true);
             /*  $scope.broadcastMessage({
                 title:"Welcome to Billionaire",
                 body:"You are a young delivery boy. You must work your way up the ladder and become a billionaire before time runs out. Try and make as much money as you can, but if you get too old, or get too much debt, it's game over."
@@ -90,8 +91,8 @@ angular.module("BillionaireGame.Driver")
             session.game.paused = true;
         };
 
-        this.unpause = function unpause() {
-            if (session.game.paused) timer = $interval(this.gameTick, session.game.speed);
+        this.unpause = function unpause(initing) {
+            if (session.game.paused || initing) timer = $interval(function(){driver.gameTick(session)}, session.game.speed);
             session.game.paused = false;
         }
 

@@ -1,15 +1,15 @@
 angular.module("BillionaireGame.Actions")   
-    .controller("ActionsController", function($scope) {
+    .controller("ActionsController", function($scope,billionaireDriverService) {
 
         $scope.openConfirmAction = function(action) {
             console.log("Confirming ", action);
 
             $scope.currentActionHappening = action;
 
-            $scope.pause();
+            billionaireDriverService.pause();
             $('#actionsModal').modal();
             $('#actionsModal').on('hidden.bs.modal', function() {
-                $scope.unpause();
+                billionaireDriverService.unpause();
             });
 
         }
@@ -31,7 +31,7 @@ angular.module("BillionaireGame.Actions")
             var done = false;
             var monthStarted = $scope.session.world.month;
 
-            $scope.onmonth(function(session) {
+            billionaireDriverService.onmonth(function(session) {
 
                 if (action.completed) return;
                 action.timeRemaining--;

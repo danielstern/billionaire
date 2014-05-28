@@ -17,6 +17,7 @@ angular.module("BillionaireGame.Jobs")
         }
 
         $scope.confirmTakeJob = function(job) {
+            var session = $scope.session;
             var player = $scope.session.player;
             if (player.job.onquit) player.job.onquit(session);
             player.job = job;
