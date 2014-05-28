@@ -1,0 +1,65 @@
+<div ng-controller="ActionsController">
+    <h2>Actions</h2>
+    <table class='table'>
+        <tr ng-repeat="action in session.allActions" ng-hide="action.purchased">
+            <td>
+                {{action.name}}
+            </td>
+            <td>
+                {{action.cost}}
+            </td>
+            <td>
+                {{action.time}} Months
+            </td>
+            <td>
+                <button class="btn btn-default" ng-click="openConfirmAction(action)" ng-class="{disabled: action.cost > session.player.cash || action.purchased}">TAKE ACTION</button>
+            </td>
+        </tr>
+    </table>
+    <div class="modal fade" id='actionsModal'>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click='unpause()'>&times;</button>
+                    <h4 class="modal-title">{{currentActionHappening.name}} - {{currentActionHappening.cost | currency}}</strong>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{currentActionHappening.description}}</p>
+                    <p>
+                        <strong>{{currentActionHappening.technical}}</strong>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" ng-class="{disabled: currentActionHappening.cost > session.player.cash || currentActionHappening.purchased}" ng-click="confirmTakeAction(currentActionHappening)">{{currentActionHappening.ok || "Take Action!"}}</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    </div>
+
+    <h3>Your Actions</h3>
+
+    <table class='table'>
+        <tr ng-repeat="action in session.player.actionsTaken">
+            <td>
+                {{action.name}}
+            </td>
+            <td ng-if="action.timeRemaining">
+                In Progress
+            </td>
+            <td ng-if="!action.timeRemaining">
+                Completed
+            </td>
+            <td ng-if="action.timeRemaining">
+                {{action.timeRemaining}} Months Left Until Completion
+            </td>
+          
+        </tr>
+    </table>
+    </div>
