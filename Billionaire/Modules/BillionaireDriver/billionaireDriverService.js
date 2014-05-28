@@ -1,11 +1,16 @@
 angular.module("BillionaireGame.Driver")
-.service('billionaireDriverService', function() {
+.service('billionaireDriverService', function(
+    billionaireSessionCreateService,
+    $timeout, $interval
+    ) {
 
         this.onNewGameListeners = [];
         this.onMonthListeners = [];
 
+        var driver = this;
+
         this.onmonth = function(l) {
-            this.onMonthListeners = $scope.onMonthListeners || [];
+            this.onMonthListeners = this.onMonthListeners || [];
             this.onMonthListeners.push(l);
         };
 
@@ -21,7 +26,7 @@ angular.module("BillionaireGame.Driver")
 
         };
 
-        this.onGameTick(function(session){
+        this.onmonth(function(session){
 
             var driver = this;
             var player = session.player;
@@ -33,15 +38,15 @@ angular.module("BillionaireGame.Driver")
             session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
 
             if (session.world.month > session.game.duration) {
-                $scope.gameOver();
+                driver.gameOver();
             }
 
             if (player.cash < -25000) {
-                $scope.gameOver();
+                driver.gameOver();
             }
 
 
-            player.holdings = $scope.consolidateStocks();
+            player.holdings = driver.consolidateStocks();
 
             var income = player.job.salary / 12 * player.salaryMultiplier;
             var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
@@ -61,11 +66,13 @@ angular.module("BillionaireGame.Driver")
 
         this.gameOver = function() {
             console.log("Game over man!");
-            $scope.broadcastMessage({
+            
+            /*$scope.broadcastMessage({
                 title: "Game over man!",
                 body: "You lose. Remember, the key to billions is compound rate of return!",
                 ok: "Play again"
-            })
+            })*/
+
 
             $interval.cancel(timer);
         }

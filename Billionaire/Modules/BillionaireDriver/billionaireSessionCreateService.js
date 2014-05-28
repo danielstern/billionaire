@@ -1,10 +1,11 @@
 angular.module("BillionaireGame.Driver")
 .service("billionaireSessionCreateService",function(
-    billionaireStocksDefintions,
+    /*billionaireStocksDefintions,
     billionaireJobsDefinitions,
     billionaireLoansDefinitions,
     billionaireActionsDefinitions,
-    billionaireEventsDefinitions){
+    billionaireEventsDefinitions*/
+    ){
 
     var defaultStats = {
         player: {
@@ -94,23 +95,29 @@ angular.module("BillionaireGame.Driver")
 
     this.getNewSession = function() {
 
+        var session = _.clone(defaultStats);
+
+        try {
         var stocks = _.clone(billionaireStocksDefinitions);
         var jobs = _.clone(billionaireJobsDefinitions);
         var events = _.clone(billionaireEventsDefinitions);
         var actions = _.clone(billionaireActionsDefinitions);
         var loans = _.clone(billionaireLoansDefinitions);
 
-        session = _.clone(defaultStats);
         session.market.stocks = stocks;
         session.allEvents = events;
         session.allActions = actions;
         session.allJobs = jobs;
         session.allLoans = loans;
 
-        var player = session.player;
-        player.job = jobs[0];
+        } catch (e) {
+            console.warn("Error forming game. Forcing");
+        }
 
+        var player = session.player;
+        //player.job = jobs[0];
+
+        return session;
     }
 
-    return session;
 })
