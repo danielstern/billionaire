@@ -1,85 +1,88 @@
-
-    <div class="modal fade" id='stockBuyModal'>
-      <div class="modal-dialog">
+<div class="modal fade" id='stockBuyModal'>
+    <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Buy Stock: {{deal.link.name}} <strong>({{deal.link.symbol}})</strong></h4>
-          </div>
-          <div class="modal-body">
-            <p>{{deal.link.description}}</p>
-             <table class='table'>
-             	  <tr>
-                    <td>
-                       Category
-                    </td>
-                    <td>
-                        {{deal.link.category | uppercase}}	
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Book Value
-                    </td>
-                    <td>
-                        {{deal.link.bookValue | currency}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Stock Market Price
-                    </td>
-                    <td>
-                        {{deal.link.price | currency}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Buy How Many?
-                    </td>
-                    <td>
-                        <input ng-model="deal.count">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Comission
-                    </td>
-                    <td>
-                        {{session.player.comission | currency}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Your Cost
-                    </td>
-                    <td>
-                        {{deal.link.price * deal.count + deal.comission | currency}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Your Cash
-                    </td>
-                    <td>
-                        {{session.player.cash | currency}}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                       Balance Remaining
-                    </td>
-                    <td>
-                        {{session.player.cash - deal.comission - deal.link.price * deal.count | currency}}
-                    </td>
-                </tr>
-            </table>	
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" ng-class="{disabled: deal.link.price * deal.count > session.player.cash}" ng-click="confirmBuyStock(deal,deal.count,deal.comission)">Buy</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Buy Stock: {{deal.link.name}}
+                    <strong>({{deal.link.symbol}})</strong>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <p>{{deal.link.description}}</p>
+                <table class='table'>
+                    <tr>
+                        <td>
+                            Category
+                        </td>
+                        <td>
+                            {{deal.link.category | uppercase}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Book Value
+                        </td>
+                        <td>
+                            {{deal.link.bookValue | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Stock Market Price
+                        </td>
+                        <td>
+                            {{deal.link.price | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Buy How Many?
+                        </td>
+                        <td>
+                            <input ng-model="deal.count">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Comission
+                        </td>
+                        <td>
+                            {{session.player.comission | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Your Cost
+                        </td>
+                        <td>
+                            {{deal.link.price * deal.count + deal.comission | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Your Cash
+                        </td>
+                        <td>
+                            {{session.player.cash | currency}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Balance Remaining
+                        </td>
+                        <td>
+                            {{session.player.cash - deal.comission - deal.link.price * deal.count | currency}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-class="{disabled: deal.link.price * deal.count > session.player.cash}" ng-click="confirmBuyStock(deal,deal.count,deal.comission)">Buy</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

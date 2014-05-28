@@ -2,7 +2,6 @@ angular.module("BillionaireGame.Driver")
  
 .service("billionaireRecordService",function(billionaireDriverService){
 
-
     billionaireDriverService.onmonth(function(session) {
 
         var snapshot = _.clone(session);

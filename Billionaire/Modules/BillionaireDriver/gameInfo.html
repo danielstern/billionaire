@@ -1,0 +1,22 @@
+<div>
+    <h2>Game</h2>
+    <table class='table'>
+        <tr>
+            <td>
+                Year
+            </td>
+            <td>
+                {{2014 + session.world.month / 12 | number:0}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Month
+            </td>
+            <td>
+                {{session.world.month % 12}}
+            </td>
+        </tr>
+    </table>
+
+</div>
