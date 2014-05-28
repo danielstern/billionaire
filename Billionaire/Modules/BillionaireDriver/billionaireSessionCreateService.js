@@ -1,5 +1,4 @@
-angular.module("BillionaireGame.Driver", [])
-    
+angular.module("BillionaireGame.Driver")
 .service("billionaireSessionCreateService",function(
     billionaireStocksDefintions,
     billionaireJobsDefinitions,
@@ -114,52 +113,4 @@ angular.module("BillionaireGame.Driver", [])
     }
 
     return session;
-})
-
-.service("billionaireGameInitService", function(
-    $timeout, $interval,
-    billionaireSessionCreateService
-    ) {
-
-
-
-})
-
-.service("BillionaireRecordService",function(billionaireDriverService){
-
-
-    billionaireDriverService.onmonth(function(session) {
-
-        var snapshot = _.clone(session);
-        snapshot.monthEnding = {
-            income: session.player.incomeThisMonth,
-            taxes: session.player.taxesThisMonth
-        }
-
-        delete snapshot.record;
-
-        session.record.push(snapshot);
-
-    })
-
-})
-
-.controller("BillionaireWorldController", function($scope, billionaireDriverService) {
-
-
-    $scope.broadcastMessage = function(message) {
-        $scope.worldMessage = message;
-
-        $scope.pause();
-        $('#worldMessageModal').modal();
-        $('#worldMessageModal').on('hidden.bs.modal', function() {
-            $scope.unpause();
-        });
-
-    }
-
-    var session = billionaireDriverService.newGame();
-
-    $scope.session = session;
-
 })
