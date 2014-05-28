@@ -7,7 +7,7 @@ angular.module("BillionaireGame.Driver")
         this.onNewGameListeners = [];
         this.onMonthListeners = [];
 
-        var driver = this;
+        var driver = this;  
 
         this.onmonth = function(l) {
             this.onMonthListeners = this.onMonthListeners || [];
@@ -32,6 +32,8 @@ angular.module("BillionaireGame.Driver")
             var player = session.player;
             var game = session.game;
 
+            //  debugger;
+
             if (game.timeSinceLastEvent) game.timeSinceLastEvent--;
 
             session.world.month += 1;
@@ -45,8 +47,7 @@ angular.module("BillionaireGame.Driver")
                 driver.gameOver();
             }
 
-
-            player.holdings = driver.consolidateStocks();
+            //player.holdings = driver.consolidateStocks();
 
             var income = player.job.salary / 12 * player.salaryMultiplier;
             var taxes = income * player.job.taxRate * player.incomeTaxMultiplier;
@@ -78,7 +79,7 @@ angular.module("BillionaireGame.Driver")
         }
 
         this.onnewgame(function(session){
-            timer = $interval(driver.gameTick, session.game.speed);
+            timer = $interval(function(){driver.gameTick(session)}, session.game.speed);
 
 
             /*  $scope.broadcastMessage({

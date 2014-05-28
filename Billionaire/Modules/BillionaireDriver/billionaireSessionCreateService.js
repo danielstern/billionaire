@@ -1,7 +1,7 @@
 angular.module("BillionaireGame.Driver")
 .service("billionaireSessionCreateService",function(
+    billionaireJobsDefinitions
     /*billionaireStocksDefintions,
-    billionaireJobsDefinitions,
     billionaireLoansDefinitions,
     billionaireActionsDefinitions,
     billionaireEventsDefinitions*/
@@ -97,9 +97,9 @@ angular.module("BillionaireGame.Driver")
 
         var session = _.clone(defaultStats);
 
+        var jobs = _.clone(billionaireJobsDefinitions);
         try {
         var stocks = _.clone(billionaireStocksDefinitions);
-        var jobs = _.clone(billionaireJobsDefinitions);
         var events = _.clone(billionaireEventsDefinitions);
         var actions = _.clone(billionaireActionsDefinitions);
         var loans = _.clone(billionaireLoansDefinitions);
@@ -115,7 +115,7 @@ angular.module("BillionaireGame.Driver")
         }
 
         var player = session.player;
-        //player.job = jobs[0];
+        player.job = jobs[0];
 
         return session;
     }

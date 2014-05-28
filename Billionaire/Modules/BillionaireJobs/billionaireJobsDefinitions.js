@@ -1,4 +1,4 @@
-angular.module("BillionaireGame.jobs")
+angular.module("BillionaireGame.Jobs")
     .service("billionaireJobsDefinitions", function() {
         var jobs = [{
             name: "Delivery Boy",

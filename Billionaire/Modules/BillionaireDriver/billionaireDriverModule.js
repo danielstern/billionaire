@@ -1,2 +1,2 @@
-angular.module("BillionaireGame.Driver", []);
+angular.module("BillionaireGame.Driver", ['BillionaireGame.Jobs']);
 
