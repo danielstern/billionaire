@@ -5,8 +5,30 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="lib/calculon.js"></script>
-    <script src="script.js"></script>
-    <script src="Billionaire/billionaireStocks.js"></script>
+    <script src="Billionaire/app.js"></script>
+
+    <script src="Billionaire/BillionaireActions/BillionaireActionsModule.js"></script>
+    <script src="Billionaire/BillionaireActions/BillionaireActionsController.js"></script>
+    <script src="Billionaire/BillionaireActions/BillionaireActionsDefinitions.js"></script>
+
+    <script src="Billionaire/BillionaireEvents/BillionaireEventsModule.js"></script>
+    <script src="Billionaire/BillionaireEvents/BillionaireEventsController.js"></script>
+    <script src="Billionaire/BillionaireEvents/BillionaireEventsDefinitions.js"></script>
+
+    <script src="Billionaire/BillionaireJobs/BillionaireJobsModule.js"></script>
+    <script src="Billionaire/BillionaireJobs/BillionaireJobsController.js"></script>
+    <script src="Billionaire/BillionaireJobs/BillionaireJobsDefinitions.js"></script>
+
+    <script src="Billionaire/BillionaireStocks/BillionaireStocksModule.js"></script>
+    <script src="Billionaire/BillionaireStocks/BillionaireStocksController.js"></script>
+    <script src="Billionaire/BillionaireStocks/BillionaireStocksDefinitions.js"></script>
+
+    <script src="Billionaire/BillionaireLoans/BillionaireLoansModule.js"></script>
+    <script src="Billionaire/BillionaireLoans/BillionaireLoansController.js"></script>
+    <script src="Billionaire/BillionaireLoans/BillionaireLoansDefinitions.js"></script>
+
+
+
     <script src="Billionaire/billionaireJobs.js"></script>
     <script src="Billionaire/billionaireEvents.js"></script>
     <script src="Billionaire/billionaireActions.js"></script>
@@ -38,6 +60,7 @@
             </td>
         </tr>
     </table>
+
     <h3>Income Statement</h3>
     <table class='table'>
         <tr>
@@ -117,11 +140,6 @@
         </tr>
     </table>
 
-
-
-    <div ng-include="'Billionaire/Modules/billionaireActions.html'"></div>
-    <div ng-include="'templates/events/eventsModal.html'"></div>
-
     <div>
         <h2>Game</h2>
         <table class='table'>
@@ -145,152 +163,6 @@
 
     </div>
 
-    <h2>Bank</h2>
-    <table class='table'>
-
-        <tr ng-repeat="loan in session.allLoans">
-            <td>
-                {{loan.name}}
-            </td>
-            <td>
-                {{loan.maximum}}
-            </td>
-            <td>
-                {{loan.interestRate}}
-            </td>
-            <td>
-                <button ng-click="openLoanModal(loan)">Take Loan</button>
-            </td>
-        </tr>
-    </table>
-    <div class="modal fade" id='takeLoanModal'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Loan Offer:
-                        <strong>{{loanOffer.name}}</strong>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{loanOffer.description}}</p>
-                    <p ng-hide="!loanOffer.technical">
-                        <strong>{{loanOffer.technical}}</strong>
-                    </p>
-                    <p ng-hide="loanOffer.requirement(session)">
-                        <em>{{loanOffer.requirementMessage}}</em>
-                    </p>
-
-                    <table class='table'>
-                        <tr>
-                            <td>
-                                Available Credit
-                            </td>
-                            <td>
-                                {{loanOffer.maxCredit | currency}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Amount Requested:
-                            </td>
-                            <td>
-                                $
-                                <input ng-model="loanOffer.amountRequested">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Your Monthly Interest
-                            </td>
-                            <td>
-                                {{loanOffer.amountRequested * loanOffer.interestRate / 12 | currency}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" ng-class="{disabled: !loanOffer.requirement(session)}" ng-click="confirmTakeLoan(loanOffer)">Accept</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
-
-    <h2>Your Debts</h2>
-    <table class='table'>
-
-        <tr ng-repeat="loan in session.player.loans">
-            <td>
-                {{loan.name}}
-            </td>
-            <td>
-                {{loan.balance}}
-            </td>
-            <td>
-                {{loan.interestRate}}
-            </td>
-            <td>
-                {{loan.balance * loan.interestRate / 12}}
-            </td>
-            <td>
-                <button ng-click="openRepayLoanModal(loan)">Repay Loan</button>
-            </td>
-        </tr>
-    </table>
-
-    <div class="modal fade" id='repayLoanModal'>
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Repay Loan:
-                        <strong>{{loanToBeRepayed.name}}</strong>
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <p ng-hide="!loanToBeRepayed.technical">
-                        <strong>{{loanToBeRepayed.technical}}</strong>
-                    </p>
-                    <p ng-hide="loanToBeRepayed.requirement(session)">
-                        <em>{{loanToBeRepayed.requirementMessage}}</em>
-                    </p>
-
-                    <table class='table'>
-                        <tr>
-                            <td>
-                                Available Owing
-                            </td>
-                            <td>
-                                {{loanToBeRepayed.balance | currency}}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Amount to Repay:
-                            </td>
-                            <td>
-                                $
-                                <input ng-model="loanToBeRepayed.amountToRepay">
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" ng-class="{disabled: loanToBeRepayed.amountToRepay > session.player.cash}" ng-click="confirmRepayLoan(loanToBeRepayed)">Repay Loan</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
-
 
     <div class="modal fade" id='worldMessageModal'>
         <div class="modal-dialog">
@@ -312,6 +184,16 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+
+
+
+
+    <div ng-include="'Billionaire/Modules/BillionaireActions/billionaireActions.html'"></div>
+    <div ng-include="'Billionaire/Modules/BillionaireJobs/billionaireJobs.html'"></div>
+    <div ng-include="'Billionaire/Modules/BillionaireStocks/billionaireStocks.html'"></div>
+    <div ng-include="'Billionaire/Modules/BillionaireEvents/billionaireEvents.html'"></div>
+    <div ng-include="'Billionaire/Modules/BillionaireLoans/billionaireLoans.html'"></div>
+
 
 
 </body>

@@ -1,4 +1,3 @@
-
 angular.module("BillionaireGame.Events")
     .service("billionaireEventsDefinitions", function() {
         var events = [{

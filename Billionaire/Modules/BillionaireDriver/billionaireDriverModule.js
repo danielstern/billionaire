@@ -101,7 +101,21 @@ angular.module("BillionaireGame.driver")
             $scope.onNewGameListeners.push(l);
         };
 
-        $scope.gameTick() {
+
+
+        $scope.broadcastMessage = function(message) {
+            $scope.worldMessage = message;
+
+            $scope.pause();
+            $('#worldMessageModal').modal();
+            $('#worldMessageModal').on('hidden.bs.modal', function() {
+                $scope.unpause();
+            });
+
+        }
+
+   
+        $scope.gameTick = function() {
 
             var player = session.player;
             var game = session.game;
