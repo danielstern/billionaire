@@ -11,10 +11,13 @@
                 <p>
                     <strong>{{currentActionHappening.technical}}</strong>
                 </p>
+                <p ng-hide="currentActionHappening.requirement(session)">
+                    <em>{{currentActionHappening.requirementMessage}}</em>
+                </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click='unpause()' data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" ng-class="{disabled: currentActionHappening.cost > session.player.cash || currentActionHappening.purchased}" ng-click="confirmTakeAction(currentActionHappening)">{{currentActionHappening.ok || "Take Action!"}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" ng-class="{disabled: currentActionHappening.cost > session.player.cash || currentActionHappening.requirement &&!currentActionHappening.requirement(session)}" ng-click="confirmTakeAction(currentActionHappening)">{{currentActionHappening.ok || "Take Action!"}}</button>
             </div>
         </div>
         <!-- /.modal-content -->

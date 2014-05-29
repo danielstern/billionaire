@@ -83,10 +83,10 @@ angular.module("BillionaireGame.Driver")
 
         this.onnewgame(function(session){
             driver.unpause(true);
-            billionaireWorldMessageService.broadcastMessage({
-                title:"Welcome to Billionaire",
-                body:"Can you make investments smartly enough to achieve your dreams of wealth before time runs out? As months pass, you will earn money from your job, but unless you buy stocks, you will never become rich enough in time."
-            });
+            // billionaireWorldMessageService.broadcastMessage({
+            //     title:"Welcome to Billionaire",
+            //     body:"Can you make investments smartly enough to achieve your dreams of wealth before time runs out? As months pass, you will earn money from your job, but unless you buy stocks, you will never become rich enough in time."
+            // });
 
         });
 

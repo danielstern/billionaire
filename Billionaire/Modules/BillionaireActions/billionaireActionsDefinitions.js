@@ -23,6 +23,31 @@ angular.module("BillionaireGame.Actions")
             effect: function(session) {
                 session.player.salaryMultiplier += 0.05;
             }
+        },{
+            name: "Take a Cooking Class",
+            cost: 100,
+            time: 10,
+            requires: null,
+            valid: true,
+            description: "Wing's Chinese Food will be very disappointed. By taking a cooking class, their business will be cut in half as you experiment in the kitchen and save money,",
+            technical: "-100 to Expenses",
+            effect: function(session) {
+                session.player.expenses -= 100;
+            }
+        },{
+            name: "Form an Investment Club",
+            cost: 1000,
+            time: 6,
+            requirement: function(session){
+                if (session.player.stocks.length) return true;
+            },
+            requirementMessage: "You must own at least one stock to form an investment club.",
+            valid: true,
+            description: "Form an investment club with your pals.",
+            technical: "Comission costs are reduced by 10%.",
+            effect: function(session) {
+                session.player.comission *= 0.9;
+            }
         }]
 
         return actions;

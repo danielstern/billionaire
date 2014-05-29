@@ -62,7 +62,7 @@
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary" ng-class="{disabled: !loanOffer.requirement(session)}" ng-click="confirmTakeLoan(loanOffer)">Accept</button>
+                  <button type="button" class="btn btn-primary" ng-class="{disabled: loanOffer.requirement && !loanOffer.requirement(session)}" ng-click="confirmTakeLoan(loanOffer)">Accept</button>
               </div>
           </div>
           <!-- /.modal-content -->
