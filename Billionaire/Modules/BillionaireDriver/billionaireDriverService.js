@@ -85,7 +85,7 @@ angular.module("BillionaireGame.Driver")
             driver.unpause(true);
             billionaireWorldMessageService.broadcastMessage({
                 title:"Welcome to Billionaire",
-                body:"You are a young delivery boy. You must work your way up the ladder and become a billionaire before time runs out. Try and make as much money as you can, but if you get too old, or get too much debt, it's game over."
+                body:"Can you make investments smartly enough to achieve your dreams of wealth before time runs out? As months pass, you will earn money from your job, but unless you buy stocks, you will never become rich enough in time."
             });
 
         });
