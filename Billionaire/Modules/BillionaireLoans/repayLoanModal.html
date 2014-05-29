@@ -29,8 +29,23 @@
                             Amount to Repay:
                         </td>
                         <td>
-                            $
-                            <input ng-model="loanToBeRepayed.amountToRepay">
+                            <input class="form-control" ng-model="loanToBeRepayed.amountToRepay">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Your Cash
+                        </td>
+                        <td>
+                            {{session.player.cash}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            New Cash on Hand
+                        </td>
+                        <td>
+                            {{session.player.cash - loanToBeRepayed.amountToRepay}}
                         </td>
                     </tr>
                 </table>
