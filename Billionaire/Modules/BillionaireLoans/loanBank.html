@@ -1,12 +1,19 @@
 <h2>Bank</h2>
   <table class='table'>
+    <tr>
+        <td>
+            Loan
+        </td>
+        <td>
+            Interest Rate
+        </td>
+        <td>
 
+        </td>
+    </tr>
       <tr ng-repeat="loan in session.allLoans">
           <td>
               {{loan.name}}
-          </td>
-          <td>
-              {{loan.maximum}}
           </td>
           <td>
               {{loan.interestRate}}

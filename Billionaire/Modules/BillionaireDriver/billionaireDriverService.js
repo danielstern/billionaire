@@ -40,12 +40,16 @@ angular.module("BillionaireGame.Driver")
             session.world.month += 1;
             session.world.dollarValue /= (1 + ((session.game.inflation - 1) / 12));
 
-            if (session.world.month > session.game.duration) {
+            if (session.world.month > session.scenario.duration) {
                 driver.gameOver();
             }
 
-            if (player.cash < -25000) {
-                driver.gameOver(  );
+            if (player.cash < session.scenario.minimum) {
+                driver.gameOver();
+            }
+
+            if (player.cash > session.scenario.required) {
+                driver.youWin();
             }
 
             var income = player.job.salary / 12 * player.salaryMultiplier;
@@ -84,6 +88,18 @@ angular.module("BillionaireGame.Driver")
             })*/
 
         });
+
+        this.youWin = function() {
+            console.log("You win, man!");
+            
+            /*$scope.broadcastMessage({
+                title: "Game over man!",
+                body: "You lose. Remember, the key to billions is compound rate of return!",
+                ok: "Play again"
+            })*/
+
+            $interval.cancel(timer);
+        }
 
 
         this.pause = function pause() {

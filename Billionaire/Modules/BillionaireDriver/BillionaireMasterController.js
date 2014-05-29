@@ -14,6 +14,14 @@ angular.module("BillionaireGame.Driver")
 
     var session = billionaireDriverService.newGame();
 
+    var scenario = {
+        duration: 600,
+        minimum: -10000,
+        required: 1000000
+    }
+
+    session.scenario = scenario;
+
     $scope.session = session;
 
 })
