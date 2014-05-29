@@ -1,16 +1,9 @@
 angular.module("BillionaireGame.Driver")
-.controller("BillionaireMasterController", function($scope, billionaireDriverService,billionaireEventsService) {
+.controller("BillionaireMasterController", function($scope, 
+    billionaireDriverService,
+    billionaireEventsService,
+    billionaireWorldMessageService) {
 
-    $scope.broadcastMessage = function(message) {
-        $scope.worldMessage = message;
-
-        billionaireDriverService.pause();
-        $('#worldMessageModal').modal();
-        $('#worldMessageModal').on('hidden.bs.modal', function() {
-            billionaireDriverService.unpause();
-        });
-
-    }
 
     var session = billionaireDriverService.newGame();
 

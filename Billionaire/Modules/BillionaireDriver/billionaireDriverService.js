@@ -1,6 +1,7 @@
 angular.module("BillionaireGame.Driver")
 .service('billionaireDriverService', function(
     billionaireSessionCreateService,
+    billionaireWorldMessageService,
     $timeout, $interval ) {
 
 
@@ -71,21 +72,21 @@ angular.module("BillionaireGame.Driver")
         this.gameOver = function() {
             console.log("Game over man!");
             
-            /*$scope.broadcastMessage({
+            billionaireWorldMessageService.broadcastMessage({
                 title: "Game over man!",
                 body: "You lose. Remember, the key to billions is compound rate of return!",
                 ok: "Play again"
-            })*/
+            })
 
             $interval.cancel(timer);
         }
 
         this.onnewgame(function(session){
             driver.unpause(true);
-            /*  $scope.broadcastMessage({
+            billionaireWorldMessageService.broadcastMessage({
                 title:"Welcome to Billionaire",
                 body:"You are a young delivery boy. You must work your way up the ladder and become a billionaire before time runs out. Try and make as much money as you can, but if you get too old, or get too much debt, it's game over."
-            })*/
+            });
 
         });
 
