@@ -8,6 +8,9 @@
             Interest Rate
         </td>
         <td>
+            Credit Available
+        </td>
+        <td>
 
         </td>
     </tr>
@@ -17,6 +20,9 @@
           </td>
           <td>
               {{loan.interestRate}}
+          </td>
+          <td>
+              {{loan.getAvailableCredit(session) | currency}}
           </td>
           <td>
               <button ng-click="openLoanModal(loan)">Take Loan</button>

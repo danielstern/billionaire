@@ -1,13 +1,15 @@
 angular.module("BillionaireGame.Loans")
     .controller("BillionaireLoansController", function($scope,billionaireDriverService) {
 
+        $scope.parseFloat = parseFloat;
+
         $scope.openLoanModal = function(loan) {
             var player = $scope.session.player;
-            var availableCredit = player.job.salary / 2 + player.getTotalAssets() / 2 - player.getTotalDebt();
+            var availableCredit = loan.getAvailableCredit($scope.session);
 
             $scope.loanOffer = _.clone(loan);
             $scope.loanOffer.maxCredit = availableCredit;
-            $scope.loanOffer.amountRequested = $scope.loanOffer.maxCredit.toFixed(2);
+            $scope.loanOffer.amountRequested = $scope.loanOffer.getAvailableCredit($scope.session).toFixed(2);
 
             billionaireDriverService.pause();
             $('#takeLoanModal').modal();
@@ -19,7 +21,10 @@ angular.module("BillionaireGame.Loans")
         $scope.openRepayLoanModal = function(loan) {
 
             $scope.loanToBeRepayed = loan;
-            $scope.loanToBeRepayed.amountToRepay = _.max([$scope.loanToBeRepayed.balance.toFixed(2), $scope.session.player.cash.toFixed(2)]);
+            $scope.loanToBeRepayed.amountToRepay = $scope.session.player.cash.toFixed(2);
+            if ($scope.session.player.cash.toFixed(2) > $scope.loanToBeRepayed.balance) {
+                $scope.loanToBeRepayed.amountToRepay = $scope.loanToBeRepayed.balance;
+            }
 
             billionaireDriverService.pause();
             $('#repayLoanModal').modal();
@@ -50,6 +55,7 @@ angular.module("BillionaireGame.Loans")
 
             var player = $scope.session.player;
             var note = {
+                name: loan.name,
                 balance: parseFloat(loan.amountRequested),
                 interestRate: loan.interestRate,
                 date: session.world.month,

@@ -39,6 +39,6 @@ angular.module("BillionaireGame.Events")
     }
 
     function doesEventHappen(session) {
-        return (Math.random() * session.game.eventFrequency < 1);
+        return (Math.random() * session.scenario.eventFrequency < 1);
     }
 })

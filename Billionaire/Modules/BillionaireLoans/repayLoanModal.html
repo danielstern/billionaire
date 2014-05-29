@@ -37,7 +37,7 @@
                             Your Cash
                         </td>
                         <td>
-                            {{session.player.cash}}
+                            {{session.player.cash | currency}}
                         </td>
                     </tr>
                     <tr>
@@ -45,7 +45,7 @@
                             New Cash on Hand
                         </td>
                         <td>
-                            {{session.player.cash - loanToBeRepayed.amountToRepay}}
+                            {{session.player.cash - loanToBeRepayed.amountToRepay  | currency}}
                         </td>
                     </tr>
                 </table>

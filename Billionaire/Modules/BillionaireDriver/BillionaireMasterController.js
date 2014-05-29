@@ -10,7 +10,8 @@ angular.module("BillionaireGame.Driver")
     var scenario = {
         duration: 600,
         minimum: -10000,
-        required: 1000000
+        required: 1000000,
+        eventFrequency: 100,
     }
 
     session.scenario = scenario;

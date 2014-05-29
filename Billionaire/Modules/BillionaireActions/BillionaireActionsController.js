@@ -1,6 +1,8 @@
 angular.module("BillionaireGame.Actions")   
     .controller("ActionsController", function($scope,billionaireDriverService) {
 
+        $scope.canTakeAction = true;
+        
         $scope.openConfirmAction = function(action) {
             
             $scope.currentActionHappening = action;
@@ -29,6 +31,8 @@ angular.module("BillionaireGame.Actions")
             var done = false;
             var monthStarted = $scope.session.world.month;
 
+            $scope.canTakeAction = false;
+
             billionaireDriverService.onmonth(function(session) {
 
                 if (action.completed) return;
@@ -36,6 +40,7 @@ angular.module("BillionaireGame.Actions")
                 if (!action.timeRemaining) {
                     action.effect($scope.session);
                     action.completed = true;
+                    $scope.canTakeAction = true;
                 }
             })
 

@@ -1,17 +1,32 @@
 <h2>Actions</h2>
+<p ng-hide="canTakeAction">Currently completing an action.</p>
 <table class='table'>
+     <tr>
+        <td>
+            Action
+        </td>
+        <td>
+            Cost
+        </td>
+        <td>
+            Time Required
+        </td>
+        <td>
+        
+        </td>
+    </tr>
     <tr ng-repeat="action in session.allActions" ng-hide="action.purchased">
         <td>
             {{action.name}}
         </td>
         <td>
-            {{action.cost}}
+            {{action.cost | currency}}
         </td>
         <td>
             {{action.time}} Months
         </td>
         <td>
-            <button class="btn btn-default" ng-click="openConfirmAction(action)" ng-class="{disabled: action.cost > session.player.cash || action.purchased}">TAKE ACTION</button>
+            <button class="btn btn-default" ng-click="openConfirmAction(action)" ng-class="{disabled: action.cost > session.player.cash || !canTakeAction}">TAKE ACTION</button>
         </td>
     </tr>
 </table>

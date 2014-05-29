@@ -47,7 +47,7 @@
                               Your Cash
                           </td>
                           <td>
-                              {{session.player.cash}}
+                              {{session.player.cash | currency}}
                           </td>
                       </tr>
                       <tr>
@@ -55,7 +55,7 @@
                               New Cash on Hand
                           </td>
                           <td>
-                              {{session.player.cash + loanOffer.amountRequested}}
+                              {{session.player.cash + parseFloat(loanOffer.amountRequested) | currency}}
                           </td>
                       </tr>
                   </table>
