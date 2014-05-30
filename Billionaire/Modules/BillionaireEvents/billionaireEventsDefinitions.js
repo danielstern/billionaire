@@ -1,20 +1,33 @@
 angular.module("BillionaireGame.Events")
     .service("billionaireEventsDefinitions", function() {
         var events = [{
-            name: "Stock market correction",
+            name: "Stock Market Correction",
             description: "Be prepared to experience mild terror and a slight sensation of suicidal despair as stock prices drop across the board",
             technical: "-10% to Price of All Stocks",
             ok: "Good thing these windows don't open",
             effect: function(session) {
                 session.market.marketAdjustment *= 0.9;
             }
+        },{
+            name: "A Good Day for Capitalism",
+            description: "People around the world hold hands and smile warmly as they reflect and the goods of capitalism. The market is happy too.",
+            technical: "+10% to Price of All Stocks",
+            effect: function(session) {
+                session.market.marketAdjustment *= 1.1;
+            }
         }, {
             name: "The Good Guys Triumph over the Bad Guys",
             description: "Optimism sweeps across the homeland as our good ol' boys defeat those dastardly devils in some desert somewhere, for some reason no one understands.",
-            technical: "+10% to Price of All Stocks",
-            ok: "Good thing these windows don't open",
+            technical: "+20% to Price of All Stocks",
             effect: function(session) {
-                session.market.marketAdjustment *= 1;
+                session.market.marketAdjustment *= 1.2;
+            }
+        },{
+            name: "A Bank Error in Your Favor",
+            description: "Yes. These happen.",
+            technical: "+500 to Cash",
+            effect: function(session) {
+                session.player.cash += 500;
             }
         }, {
             name: "Evil continues to be profitable",

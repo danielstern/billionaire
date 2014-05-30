@@ -1,7 +1,12 @@
- <h2>Stock Market</h2>
+ <h2>Stock Market
+    
+ </h2>
+ <!--
+ <input class="form-control" placeholder="Search" ng-model='searchFilter'>
+-->
     <table class='table'>
 
-        <tr ng-repeat="stock in session.market.stocks">
+        <tr ng-repeat="stock in session.market.stocks|filter:searchFilter">
             <td>
                 <span title="{{stock.name}}">{{stock.symbol}}</span>
             </td>
