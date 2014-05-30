@@ -1,0 +1,43 @@
+<h3>Income Statement</h3>
+<table class='table'>
+    <tr>
+        <td>
+            Paycheque
+        </td>
+        <td>
+            {{session.player.job.salary / 12 | currency}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Income Tax Rate
+        </td>
+        <td>
+            {{session.player.job.taxRate * session.player.incomeTaxMultiplier * 100 | number:2 }}%
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Expenses
+        </td>
+        <td>
+            {{session.player.expenses | currency}}
+        </td>
+    </tr>
+    <tr ng-hide="!session.player.getMonthlyDebtService()">
+        <td>
+            Monthly Interest Payment
+        </td>
+        <td>
+            {{-session.player.getMonthlyDebtService() | currency}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Cash Flow
+        </td>
+        <td>
+            {{session.player.getCashflow() | currency}}
+        </td>
+    </tr>
+</table>

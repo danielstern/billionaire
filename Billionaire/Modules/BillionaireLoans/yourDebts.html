@@ -1,4 +1,5 @@
-<h2>Your Debts</h2>
+<div ng-hide="!session.player.loans.length">
+<h3>Your Debts</h3>
   <table class='table'>
     <tr ng-repeat="loan in session.player.loans">
         <td>
@@ -14,7 +15,7 @@
             Monthly Payment
         </td>
         <td>
-            <button ng-click="openRepayLoanModal(loan)">Repay Loan</button>
+        
         </td>
     </tr>
       <tr ng-repeat="loan in session.player.loans">
@@ -35,3 +36,4 @@
           </td>
       </tr>
   </table>
+</div>

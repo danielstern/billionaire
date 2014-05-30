@@ -1,0 +1,19 @@
+<h1>Character</h1>
+    <table class='table'>
+        <tr>
+            <td>
+                Age
+            </td>
+            <td>
+                {{session.player.age | number:0}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Job
+            </td>
+            <td>
+                {{session.player.job.name}}
+            </td>
+        </tr>
+    </table>

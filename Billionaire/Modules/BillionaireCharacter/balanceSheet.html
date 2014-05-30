@@ -1,0 +1,35 @@
+<h3>Balance Sheet</h3>
+<table class='table'>
+    <tr>
+        <td>
+            Cash
+        </td>
+        <td>
+            {{session.player.cash | currency}}
+        </td>
+    </tr>
+    <tr ng-hide="!session.player.getTotalStockValue()">
+        <td>
+            Other Assets
+        </td>
+        <td>
+            {{session.player.getTotalStockValue() | currency}}
+        </td>
+    </tr>
+    <tr ng-hide="!session.player.getTotalDebt()">
+        <td>
+            Debts
+        </td>
+        <td>
+            {{-session.player.getTotalDebt() | currency}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Net Worth
+        </td>
+        <td>
+            {{session.player.getNetWorth() | currency}}
+        </td>
+    </tr>
+</table>

@@ -1,4 +1,5 @@
-<h3>Your Actions</h3>
+<div ng-hide="!session.player.actionsTaken.length">
+    <h3>Your Actions</h3>
 
 <table class='table'>
     <tr ng-repeat="action in session.player.actionsTaken">
@@ -17,3 +18,4 @@
 
     </tr>
 </table>
+</div>

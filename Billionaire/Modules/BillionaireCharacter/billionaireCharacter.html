@@ -1,99 +1,15 @@
- <h1>Character</h1>
+<div>
+    <div ng-include="'Billionaire/modules/BillionaireCharacter/characterStats.html'"></div>
+    <div ng-include="'Billionaire/modules/BillionaireCharacter/incomeStatement.html'"></div>
+    <div ng-include="'Billionaire/modules/BillionaireCharacter/balanceSheet.html'"></div>
 
-    <table class='table'>
-        <tr>
-            <td>
-                Age
-            </td>
-            <td>
-                {{session.player.age | number:0}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Job
-            </td>
-            <td>
-                {{session.player.job.name}}
-            </td>
-        </tr>
-    </table>
+      <div ng-include="'Billionaire/modules/BillionaireActions/yourActions.html'"></div>
 
-    <h3>Income Statement</h3>
-    <table class='table'>
-        <tr>
-            <td>
-                Paycheque
-            </td>
-            <td>
-                {{session.player.job.salary / 12 | currency}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Income Tax Rate
-            </td>
-            <td>
-                {{session.player.job.taxRate * session.player.incomeTaxMultiplier * 100 | number:2 }}%
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Expenses
-            </td>
-            <td>
-                {{session.player.expenses | currency}}
-            </td>
-        </tr>
-        <tr ng-hide="!session.player.getMonthlyDebtService()">
-            <td>
-                Monthly Interest Payment
-            </td>
-            <td>
-                {{-session.player.getMonthlyDebtService() | currency}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Cash Flow
-            </td>
-            <td>
-                {{session.player.getCashflow() | currency}}
-            </td>
-        </tr>
-    </table>
-    <h3>Balance Sheet</h3>
-    <table class='table'>
-        <tr>
-            <td>
-                Cash
-            </td>
-            <td>
-                {{session.player.cash | currency}}
-            </td>
-        </tr>
-        <tr ng-hide="!session.player.getTotalStockValue()">
-            <td>
-                Other Assets
-            </td>
-            <td>
-                {{session.player.getTotalStockValue() | currency}}
-            </td>
-        </tr>
-        <tr ng-hide="!session.player.getTotalDebt()">
-            <td>
-                Debts
-            </td>
-            <td>
-                {{-session.player.getTotalDebt() | currency}}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Net Worth
-            </td>
-            <td>
-                {{session.player.getNetWorth() | currency}}
-            </td>
-        </tr>
-    </table>
+       <div ng-include="'Billionaire/modules/BillionaireStocks/yourHoldings.html'"></div>
+           <div ng-include="'Billionaire/modules/BillionaireStocks/stockSellModal.html'"></div>
+
+           <div ng-include="'Billionaire/modules/BillionaireLoans/yourDebts.html'"></div>
+           <div ng-include="'Billionaire/modules/BillionaireLoans/repayLoanModal.html'"></div>
+</div>
+
+
