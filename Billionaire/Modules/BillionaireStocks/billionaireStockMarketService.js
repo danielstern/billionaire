@@ -11,9 +11,14 @@ angular.module("BillionaireGame.Stocks")
 	        var marketMood = Math.random() * (game.marketMoodRange.max - game.marketMoodRange.min) + game.marketMoodRange.min;
 
 	        _.each(session.market.stocks, function(stock) {
+	        		stock.record = stock.record || [];
 	            stock.bookValue = stock.bookValue * (1 + ((stock.growthRate - 1) / 12));
 	            stock.price = stock.bookValue * session.market.marketAdjustment;
 	            stock.price *= marketMood;
+	            stock.record.push({
+	            	bookValue: stock.bookValue,
+	            	price: stock.price
+	            })
 	        })
 
 	        session.player.holdings = stockMarketService.consolidateStocks(session);
