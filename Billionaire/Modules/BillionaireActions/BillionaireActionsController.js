@@ -1,5 +1,5 @@
 angular.module("BillionaireGame.Actions")   
-    .controller("ActionsController", function($scope,billionaireDriverService) {
+    .controller("BillionaireActionsController", function($scope,billionaireDriverService) {
 
         $scope.canTakeAction = true;
         

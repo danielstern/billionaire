@@ -30,7 +30,7 @@
     <script src="Billionaire/Modules/BillionaireDriver/billionaireWorldMessageService.js"></script>
     <script src="Billionaire/Modules/BillionaireDriver/WorldMessageModalController.js"></script>
 
-    
+
     <script src="Billionaire/Modules/BillionaireDriver/billionaireMasterController.js"></script>
 
     <script src="Billionaire/Modules/BillionaireLoans/billionaireLoansModule.js"></script>
@@ -57,15 +57,49 @@
 
 <body class='container' ng-controller="BillionaireMasterController" ng-app="BillionaireGame">
 
+    <h2>Menu</h2>
+    <nav class='menu'> 
+        <ul>
+            <a href="/#/stocks">
+                <li>
+                    Stock Market
+                </li>
+            </a>
+            <a href="/#/actions">
+                <li>
+                    Actions
+                </li>
+            </a>
+            <a href="/#/jobs">
+                <li>
+                    Jobs
+                </li>
+            </a>
+            <a href="/#/bank">
+                <li>
+                    Actions
+                </li>
+            </a>
+            <a href="/#/player">
+                <li>
+                    Home
+                </li>
+            </a>
+        </ul>
+    </nav>
+    <div>
+        Cash: {{session.player.cash | currency}}
+    </div>
     <div class='ng-view'>
     </div>
 
-    <div ng-include="'Billionaire/Modules/BillionaireDriver/billionaireDriver.html'"></div>
-    <div ng-include="'Billionaire/Modules/BillionaireJobs/billionaireJobs.html'"></div>
-    <div ng-include="'Billionaire/Modules/BillionaireActions/billionaireActions.html'"></div>
     <div ng-include="'Billionaire/Modules/BillionaireEvents/billionaireEvents.html'"></div>
-    <div ng-include="'Billionaire/Modules/BillionaireLoans/billionaireLoans.html'"></div>
-    <div ng-include="'Billionaire/Modules/BillionaireStocks/billionaireStocks.html'"></div>
+
+    <!-- <div ng-include="'Billionaire/Modules/BillionaireDriver/billionaireDriver.html'"></div> -->
+    <!-- <div ng-include="'Billionaire/Modules/BillionaireJobs/billionaireJobs.html'"></div> -->
+    <!--<div ng-include="'Billionaire/Modules/BillionaireActions/billionaireActions.html'"></div>-->
+    <!-- <div ng-include="'Billionaire/Modules/BillionaireLoans/billionaireLoans.html'"></div> -->
+    <!-- <div ng-include="'Billionaire/Modules/BillionaireStocks/billionaireStocks.html'"></div> -->
     <!--
 -->
 
