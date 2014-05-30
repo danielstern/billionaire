@@ -22,6 +22,7 @@ angular.module("BillionaireGame.Actions")
             technical: "+5% to Job Income",
             effect: function(session) {
                 session.player.salaryMultiplier += 0.05;
+                session.player.canSell = true;
             }
         },{
             name: "Take a Cooking Class",
@@ -33,6 +34,7 @@ angular.module("BillionaireGame.Actions")
             technical: "-100 to Expenses",
             effect: function(session) {
                 session.player.expenses -= 100;
+                session.player.canCook = true;
             }
         },{
             name: "Form an Investment Club",
@@ -47,6 +49,7 @@ angular.module("BillionaireGame.Actions")
             technical: "Comission costs are reduced by 10%.",
             effect: function(session) {
                 session.player.comission *= 0.9;
+                session.player.hasInvestmentClub = true;
             }
         }]
 

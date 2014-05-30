@@ -86,7 +86,7 @@ angular.module("BillionaireGame.Stocks")
             symbol: "WH",
             description: "Manufacturers of everything from bombs to guns to different kinds of guns, you can depend on a healthy return thanks to ample government contracts. Consisder selling if you can't sleep at night.",
             category: "capital",
-            growthRate: 1.7,
+            growthRate: 1.17,
             bookValue: 315,
         }]
 

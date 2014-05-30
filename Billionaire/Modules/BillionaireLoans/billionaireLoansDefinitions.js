@@ -15,7 +15,7 @@ angular.module("BillionaireGame.Loans")
             name: "Bank Loan",
             interestRate: 0.19,
             requirement: function(session) {
-                if (session.player.getNetWorth > 50000) return true
+                if (session.player.getNetWorth() > 50000) return true
             },
             getAvailableCredit: function(session) {
                 var player = session.player;
