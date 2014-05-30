@@ -1,19 +1,28 @@
 <div>
-  <h2>
-  	{{stock.symbol}}
-  </h2>
-  <h3>
-  	{{stock.name}}
-  </h3>
+    <h2>
+        {{stock.symbol}}
+    </h2>
+    <h3>
+        {{stock.name}}
+    </h3>
 </div>
 <div>
-	<p>
-		{{stock.description}}
-	</p>
+    <p>
+        {{stock.description}}
+    </p>
+</div>
+<div>
+    <p>
+        {{stock.price | currency}}
+    </p>
+</div>
+
+<div ng-controller="SingleStockBasicGraphController" ng-include="'Billionaire/Modules/BillionaireStocks/billionaireStockBasicGraph.html'">
+
 </div>
 <div>
 
+    <button ng-click="openBuyStockModal(stock)">BUY</button>
 </div>
 
-<button ng-click="openBuyStockModal(stock)">BUY</button>
 <a href="#/stocks">BACK TO STOCKS</a>
