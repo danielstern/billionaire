@@ -1,20 +1,22 @@
- <h2>Stock Market
-    
- </h2>
- <!--
+<h2>Stock Market
+
+</h2>
+<!--
  <input class="form-control" placeholder="Search" ng-model='searchFilter'>
 -->
-    <table class='table'>
+<table class='table'>
 
-        <tr ng-repeat="stock in session.market.stocks|filter:searchFilter">
-            <td>
+    <tr ng-repeat="stock in session.market.stocks|filter:searchFilter">
+        <td>
+            <a href="#/stocks/{{stock.symbol}}">
                 <span title="{{stock.name}}">{{stock.symbol}}</span>
-            </td>
-            <td>
-                {{stock.price | currency}}
-            </td>
-            <td>
-                <button ng-click="openBuyStockModal(stock)">BUY</button>
-            </td>
-        </tr>
-    </table>
+            </a>
+        </td>
+        <td>
+            {{stock.price | currency}}
+        </td>
+        <td>
+            <button ng-click="openBuyStockModal(stock)">BUY</button>
+        </td>
+    </tr>
+</table>

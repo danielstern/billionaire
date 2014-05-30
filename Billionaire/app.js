@@ -15,6 +15,10 @@ angular.module("BillionaireGame", [
             templateUrl: 'Billionaire/modules/BillionaireStocks/billionaireStocks.html',
             controller: 'BillionaireStocksController'
         }).
+        when('/stocks/:symbol', {
+            templateUrl: 'Billionaire/modules/BillionaireStocks/billionaireSingleStockView.html',
+            controller: 'BillionaireSingleStockController'
+        }).
         when('/actions', {
             templateUrl: 'Billionaire/modules/BillionaireActions/billionaireActions.html',
             controller: 'BillionaireActionsController'
