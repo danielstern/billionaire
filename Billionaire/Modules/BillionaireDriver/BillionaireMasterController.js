@@ -2,6 +2,7 @@ angular.module("BillionaireGame.Driver")
 .controller("BillionaireMasterController", function($scope, 
     billionaireDriverService,
     billionaireEventsService,
+    billionaireStockMarketService,
     billionaireWorldMessageService) {
 
 
