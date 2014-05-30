@@ -1,0 +1,38 @@
+<div>
+    <h2>Game</h2>
+    <table class='table'>
+        <tr>
+            <td>
+                Date
+            </td>
+            <td>
+                {{2014 + session.world.month / 12 | number:0}}, {{session.world.month % 12}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Years Remaining
+            </td>
+            <td>
+                {{(session.scenario.duration - session.world.month) / 12 | number:1}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Target Wealth
+            </td>
+            <td>
+                {{session.scenario.required | currency}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Amount Remaining
+            </td>
+            <td>
+                {{session.scenario.required - session.player.getNetWorth() | currency}}
+            </td>
+        </tr>
+    </table>
+
+</div>
