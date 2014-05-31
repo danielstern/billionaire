@@ -1,6 +1,5 @@
 angular.module("BillionaireGame.Stocks")
-    .controller('SingleStockBasicGraphController', function($scope, $routeParams) {
-
+    .controller('SingleStockBasicGraphController', function($interval, $scope, $routeParams) {
 
         $scope.clearElements = function(selector) {
             d3.select(selector).selectAll(".glyphicon").remove();
@@ -8,12 +7,19 @@ angular.module("BillionaireGame.Stocks")
             d3.select(selector).selectAll("text").remove();
         }
 
+        $scope.addScalingSVG = function(selection) {
+          return   selection
+            .append("svg")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0,0,100,100")
+        }
 
         $scope.barChart = function (values, selector) {
 
           $scope.clearElements(selector);
 
           var finalValue = values[values.length -1]
+          var maxValue = _.max(values);
 
           var numValues = values.length;
 
@@ -23,9 +29,10 @@ angular.module("BillionaireGame.Stocks")
 
           var eachWidth = (50 / numValues) + 0;
 
-          console.log("graphing...",values,selector)
 
-          var frame = d3.select(selector)
+          d3.select(selector)
+           .append('svg')
+            .selectAll("rect")
             .data(values)
             .enter()
             .append("rect")
@@ -34,17 +41,16 @@ angular.module("BillionaireGame.Stocks")
               return(i * x);
             })
             .attr("y", function (d) {
-              return(100 - scale(d.total));
+              return(100 - scale(maxValue));
             })
             .attr("width", eachWidth)
             .attr("height", function (d) {
-              return scale(d.total);
+              return scale(maxValue);
             })
             .attr("fill", function (d) {
 
               return "rgb(0, 0, 255)";
             })
-
           $scope.appendTitle(selector, "Price over Time")
         }
 
@@ -57,6 +63,9 @@ angular.module("BillionaireGame.Stocks")
             .attr("class", "chart-title");
         }
 
-        $scope.barChart([1,2,3,4],'#svg-'+$scope.stock.symbol);
+        $interval(
+        	function(){
+        		$scope.barChart([1,2,3,4,6,7,8,9,10],'#svg-'+$scope.stock.symbol);
+        	},300);
 
     })

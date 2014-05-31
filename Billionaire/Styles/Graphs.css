@@ -1,6 +1,6 @@
-svg {
-	width: 10rem;
-	height: 10rem;
+.stock-graph {
+	width: 100px;
+	height: 100px;
 	background-color: #ddd;
 	margin: 1em;
 }
