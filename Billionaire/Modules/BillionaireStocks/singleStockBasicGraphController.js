@@ -27,7 +27,7 @@ angular.module("BillionaireGame.Stocks")
             .domain([0, finalValue])
             .range([0, 100]);
 
-          var eachWidth = (50 / numValues) + 0;
+          var eachWidth = (100 / numValues);
 
 
           d3.select(selector)
@@ -41,14 +41,13 @@ angular.module("BillionaireGame.Stocks")
               return(i * x);
             })
             .attr("y", function (d) {
-              return(100 - scale(maxValue));
+              return(100 - scale(d));
             })
             .attr("width", eachWidth)
             .attr("height", function (d) {
-              return scale(maxValue);
+              return scale(d);
             })
             .attr("fill", function (d) {
-
               return "rgb(0, 0, 255)";
             })
           $scope.appendTitle(selector, "Price over Time")
@@ -56,16 +55,20 @@ angular.module("BillionaireGame.Stocks")
 
         $scope.appendTitle = function(selector, title) {
             var outer = d3.select(selector)
-            .select(".thumb");
-          outer
             .append("text")
             .text(title)
             .attr("class", "chart-title");
         }
 
+   
+
         $interval(
         	function(){
-        		$scope.barChart([1,2,3,4,6,7,8,9,10],'#svg-'+$scope.stock.symbol);
+        		var prices = _.map($scope.stock.record,function(stockRecord){
+        			return stockRecord.price;
+        		})
+
+        		$scope.barChart(prices,'#svg-'+$scope.stock.symbol);
         	},300);
 
     })
