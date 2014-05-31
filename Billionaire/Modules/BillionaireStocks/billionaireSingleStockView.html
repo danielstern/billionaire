@@ -22,7 +22,14 @@
 </div>
 <div>
 
-    <button ng-click="openBuyStockModal(stock)">BUY</button>
 </div>
 
-<a href="#/stocks">BACK TO STOCKS</a>
+<div ng-controller="BillionaireStocksController">
+    <button ng-click="openBuyStockModal(stock)">BUY</button>
+    <div ng-include="'Billionaire/modules/BillionaireStocks/stockBuyModal.html'"></div>
+    <div ng-include="'Billionaire/modules/BillionaireStocks/stockSellModal.html'"></div>
+</div>
+
+<div>
+  <a href="#/stocks">BACK TO STOCKS</a>
+</div>

@@ -67,6 +67,7 @@ angular.module("BillionaireGame.Stocks")
 
         $interval(
         	function(){
+            
         		var prices = _.map($scope.stock.record,function(stockRecord){
         			return stockRecord.price;
         		})

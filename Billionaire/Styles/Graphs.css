@@ -1,6 +1,8 @@
 .stock-graph {
-	width: 50%;
+	max-width: 480px;
 	height: 200px;
 	background-color: #ddd;
 	margin: 1em;
+	margin-right: 20px;
+	margin-bottom: 2rem;
 }
