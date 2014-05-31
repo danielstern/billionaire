@@ -25,6 +25,7 @@ angular.module("BillionaireGame.Stocks")
 
 
             $scope.deal = deal;
+            $scope.stock = deal;
 
             $('#stockBuyModal').modal();
             $('#stockBuyModal').on('hidden.bs.modal', function() {

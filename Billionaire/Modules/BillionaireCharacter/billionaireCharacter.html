@@ -5,11 +5,9 @@
 
       <div ng-include="'Billionaire/modules/BillionaireActions/yourActions.html'"></div>
 
-       <div ng-include="'Billionaire/modules/BillionaireStocks/yourHoldings.html'"></div>
-           <div ng-include="'Billionaire/modules/BillionaireStocks/stockSellModal.html'"></div>
+      <div ng-controller="BillionaireStocksController" ng-include="'Billionaire/modules/BillionaireStocks/StockMarket/yourHoldings.html'"></div>
 
-           <div ng-include="'Billionaire/modules/BillionaireLoans/yourDebts.html'"></div>
-           <div ng-include="'Billionaire/modules/BillionaireLoans/repayLoanModal.html'"></div>
+     <div ng-include="'Billionaire/modules/BillionaireLoans/yourDebts.html'"></div>
 </div>
 
 
