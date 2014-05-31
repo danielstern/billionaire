@@ -23,11 +23,14 @@ angular.module("BillionaireGame.Stocks")
 
           var numValues = values.length;
 
-          var scale = d3.scale.linear()
-            .domain([0, finalValue])
-            .range([0, 100]);
+          var width = $(selector).width();
+          var height = $(selector).height();
 
-          var eachWidth = (100 / numValues);
+          var scale = d3.scale.linear()
+            .domain([0, maxValue * 1.5])
+            .range([0, height]);
+
+          var eachWidth = (width / numValues);
 
 
           d3.select(selector)
@@ -37,11 +40,11 @@ angular.module("BillionaireGame.Stocks")
             .enter()
             .append("rect")
             .attr("x", function (d, i) {
-              var x = 100 / numValues;
+              var x = width / numValues;
               return(i * x);
             })
             .attr("y", function (d) {
-              return(100 - scale(d));
+              return(height - scale(d));
             })
             .attr("width", eachWidth)
             .attr("height", function (d) {
