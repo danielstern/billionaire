@@ -9,6 +9,7 @@ return {
 	// 	console.log("Stock buy modal init");
 	// },
 	link: function(scope, elem) {
+		console.log("Abraham lincolon", scope);
 	},
 	templateUrl: "Billionaire/Modules/BillionaireStocks/StockModals/stockBuyModal.html",
 }
