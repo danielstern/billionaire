@@ -3,7 +3,6 @@ angular.module("BillionaireGame.Stocks")
 	_.each($scope.session.market.stocks,function(stock){
 		if (stock.symbol == $routeParams.symbol) {
 			$scope.stock = stock;
-			
 		}
 	})
 })

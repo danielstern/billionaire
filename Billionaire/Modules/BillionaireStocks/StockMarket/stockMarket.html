@@ -16,11 +16,10 @@
             {{stock.price | currency}}
         </td>
         <td>
-            <button ng-click="openBuyStockModal(stock)">BUY</button>
+            <stock-buy-modal></stock-buy-modal>
         </td>
     </tr>
 </table>
 
 <div ng-include="'Billionaire/modules/BillionaireStocks/StockModals/confirmStockBuyModal.html'"></div>
 <stock-sell-modal></stock-sell-modal>
-<stock-buy-modal></stock-buy-modal>
