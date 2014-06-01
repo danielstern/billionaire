@@ -14,7 +14,6 @@ return {
 		        link: stock,
 		        boughtPrice: stock.price,
 		        count: 10,
-		        stocks: [],
 		        comission: $scope.session.player.comission,
 		    }
 
@@ -24,8 +23,8 @@ return {
 			console.log("Opening modal",$scope.deal);
 
 		    $('#stockBuyModal-'+stock.symbol).modal();
-		    $('#stockBuyModal'+stock.symbol).on('hidden.bs.modal', function() {
-		        if (!$scope.session.confirming) billionaireDriverService.unpause();
+		    $('#stockBuyModal-'+stock.symbol).on('hidden.bs.modal', function() {
+		        billionaireDriverService.unpause();
 		    });
 
 		    billionaireDriverService.pause();
@@ -34,15 +33,15 @@ return {
 
 		$scope.confirmBuyStock = function(deal, count, comission) {
 
+				var stock = deal.link;
+
 		    billionaireDriverService.pause();
-		    $scope.session.confirming = true;
-		    $('#stockBuyModal').modal('hide');
+		    $('#stockBuyModal-'+stock.symbol).modal('hide');
 
 		    deal.originalNetCost = deal.boughtPrice + comission / count;
 		    deal.count = count;
 		    deal.comission = comission;
 		    deal.totalCost = deal.boughtPrice * count + comission;
-		    deal.settled = true;
 
 		    var stocks = billionaireStockMarketService.expandStocks(deal);
 
@@ -50,11 +49,6 @@ return {
 		    $scope.session.player.stockHistory.push(deal);
 
 		    $scope.session.player.cash -= (deal.totalCost);
-		    $('#confirmStockBuyModal').modal();
-		    $('#confirmStockBuyModal').on('hidden.bs.modal', function() {
-		        billionaireDriverService.unpause();
-		        $scope.session.confirming = false;
-		    });
 		}
 
 

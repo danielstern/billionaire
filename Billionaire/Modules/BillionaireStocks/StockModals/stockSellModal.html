@@ -1,4 +1,6 @@
- <div class="modal fade" id='stockSellModal'>
+<button ng-click="openSellStockModal(holding)">SELL</button>
+
+ <div class="modal fade" id='stockSellModal-{{holding.link.symbol}}'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">

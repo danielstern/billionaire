@@ -2,22 +2,25 @@ angular.module("BillionaireGame.Stocks")
 .directive("stockSellModal",function() {
 return {
 	restrict: "AE",
-	controller: function($scope) {
-
+	controller: function($scope,billionaireDriverService,billionaireStockMarketService  ) {
 
 		$scope.openSellStockModal = function(holding) {
 
 		    $scope.deal = holding;
+		    var stock = holding.link;
+
 		    holding.gainPerUnit = holding.link.price - holding[0].boughtPrice;
 		    holding.taxPerUnit = $scope.session.market.capitalGainsTax;
 
 		    holding.amountToSell = holding.length;
 
-		    $('#stockSellModal').modal();
-		    $('#stockSellModal').on('hidden.bs.modal', function() {
-		        if (!$scope.session.confirming) billionaireDriverService.unpause();
+		    var modalSelector = '#stockSellModal-'+stock.symbol;
+		    $scope.modalSelector = modalSelector;
+		    console.log("opening modal",modalSelector);
+		    $(modalSelector).modal();
+		    $(modalSelector).on('hidden.bs.modal', function() {
+		        billionaireDriverService.unpause();
 		    });
-
 
 		    billionaireDriverService.pause();
 		}
@@ -25,12 +28,8 @@ return {
 
 		$scope.confirmSellStock = function(holding, count) {
 
-		    billionaireDriverService.pause();
 		    billionaireStockMarketService.sellStocks(holding,count,$scope.session);
-
-
-		    $('#stockSellModal').modal('hide');
-		    if (!$scope.session.confirming) billionaireDriverService.unpause();
+		    $($scope.modalSelector).modal('hide');
 
 		}
 		
