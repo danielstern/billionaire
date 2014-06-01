@@ -9,7 +9,8 @@ return {
 	// 	console.log("Stock buy modal init");
 	// },
 	link: function(scope, elem) {
-		console.log("Abraham lincolon", scope);
+		console.log("link",scope);
+		scope.session = scope.$parent.session;		
 	},
 	templateUrl: "Billionaire/Modules/BillionaireStocks/StockModals/stockBuyModal.html",
 }
