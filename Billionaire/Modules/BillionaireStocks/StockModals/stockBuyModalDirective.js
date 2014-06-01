@@ -2,7 +2,7 @@ angular.module("BillionaireGame.Stocks")
 .directive("stockBuyModal",function() {
 return {
 	restrict: "AE",	
-	controller: function($scope, billionaireDriverService, billionaireStockMarketService  ) {
+	controller: function($scope, billionaireDriverService, billionaireStockMarketService) {
 
 		$scope.openBuyStockModal = function(stock) {
 
@@ -20,7 +20,6 @@ return {
 
 		    $scope.deal = deal;
 		    $scope.stock = stock;
-			console.log("Opening modal",$scope.deal);
 
 		    $('#stockBuyModal-'+stock.symbol).modal();
 		    $('#stockBuyModal-'+stock.symbol).on('hidden.bs.modal', function() {
@@ -38,14 +37,13 @@ return {
 		    billionaireDriverService.pause();
 		    $('#stockBuyModal-'+stock.symbol).modal('hide');
 
-		    deal.originalNetCost = deal.boughtPrice + comission / count;
 		    deal.count = count;
 		    deal.comission = comission;
+		    
+		    billionaireStockMarketService.buyStocks(deal.link,count,comission);
+
+		    deal.originalNetCost = deal.boughtPrice + comission / count;
 		    deal.totalCost = deal.boughtPrice * count + comission;
-
-		    var stocks = billionaireStockMarketService.expandStocks(deal);
-
-		    $scope.session.player.stocks = $scope.session.player.stocks.concat(stocks);
 		    $scope.session.player.stockHistory.push(deal);
 
 		    $scope.session.player.cash -= (deal.totalCost);
