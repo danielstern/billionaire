@@ -103,6 +103,11 @@ angular.module("BillionaireGame.Driver")
         }
 
 
+        this.getSession = function() {
+            return session;
+        }
+
+
         this.pause = function pause() {
             $interval.cancel(timer);
             session.game.paused = true;

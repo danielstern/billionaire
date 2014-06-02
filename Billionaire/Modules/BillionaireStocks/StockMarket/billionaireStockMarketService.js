@@ -28,7 +28,8 @@ angular.module("BillionaireGame.Stocks")
         })
 
 
-        this.sellStocks = function(holding, count, session) {
+        this.sellStocks = function(holding, count) {
+            var session = billionaireDriverService.getSession();
 
             for (var i = 0; i < count; i++) {
                 var stock = _.find(session.player.stocks, function(stock) {
@@ -44,11 +45,16 @@ angular.module("BillionaireGame.Stocks")
         }
 
         this.buyStocks = function(deal, count, comission) {
+            var session = billionaireDriverService.getSession();
 
-
+            deal.count = count;
             var stocks = this.expandStocks(deal);
 
-            $scope.session.player.stocks = $scope.session.player.stocks.concat(stocks);
+            console.log("adding stocks", deal, stocks);
+
+            
+
+            session.player.stocks = session.player.stocks.concat(stocks);
             var deal = {
 
             }

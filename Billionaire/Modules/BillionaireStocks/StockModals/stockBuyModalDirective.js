@@ -39,11 +39,11 @@ return {
 
 		    deal.count = count;
 		    deal.comission = comission;
-		    
-		    billionaireStockMarketService.buyStocks(deal.link,count,comission);
-
 		    deal.originalNetCost = deal.boughtPrice + comission / count;
 		    deal.totalCost = deal.boughtPrice * count + comission;
+		    
+		    billionaireStockMarketService.buyStocks(deal,count,comission);
+
 		    $scope.session.player.stockHistory.push(deal);
 
 		    $scope.session.player.cash -= (deal.totalCost);
