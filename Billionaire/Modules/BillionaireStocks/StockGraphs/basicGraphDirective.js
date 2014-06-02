@@ -20,17 +20,20 @@ return {
 		    .attr("viewBox", "0,0,100,100")
 		}
 
-		$scope.lineChart = function(values,selector) {
+		$scope.lineChart = function(data,selector) {
 
 			$scope.clearElements(selector);
+
+			data = _.map(data,function(_d){
+				return {
+					value: _d
+				}
+			})
 
 			var margin = {top: 20, right: 20, bottom: 30, left: 50},
 			    width = 960 - margin.left - margin.right,
 			    height = 500 - margin.top - margin.bottom;
 
-			console.log("Line charting",values);
-
-			var parseDate = d3.time.format("%d-%b-%y").parse;
 
 			var x = d3.time.scale()
 			    .range([0, width]);
@@ -47,10 +50,8 @@ return {
 			    .orient("left");
 
 			var line = d3.svg.line()
-			    .x(function(d) { return x(d); })
-			    .y(function(d, t) { return y(t); });
-
-		  var data = values;
+			    .x(function(d, t) { return x(t); })
+			    .y(function(d, t) { return y(d.value); });
 
 			var svg = d3.select(selector)
 				 .append("svg")
@@ -59,15 +60,14 @@ return {
 			  .append("g")
 			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-			  values.forEach(function(d,t) {
-			    d.date = d;
-			    d.close = t;
+			  data.forEach(function(d,t) {
+			    d.date = t;
 			  });
 
 			  // debugger;
 
-			  x.domain(d3.extent(data, function(d) { return d; }));
-			  y.domain(d3.extent(data, function(d,t) { return d,t }));
+			  x.domain(d3.extent(data, function(d, t) { return d.date; }));
+			  y.domain(d3.extent(data, function(d,t) { return d.value }));
 
 			  svg.append("g")
 			      .attr("class", "x axis")
